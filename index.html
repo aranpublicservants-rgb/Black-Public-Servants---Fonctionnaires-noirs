@@ -8,30 +8,40 @@
   :root{
     --bg:#fbfaf8; --card:#ffffff; --ink:#1a1a1a; --ink-soft:#54514c; --line:#e4e1dc;
     --rust:#8f3c1e; --accent:#176a73; --black:#1B2A41;
-    --worse:#8c2626; --worse-bg:#fbe9e7; --hl:rgba(143,60,30,.10);
+    --worse:#8c2626; --worse-bg:#fbe9e7; --hl:rgba(143,60,30,.10); --on-accent:#ffffff; --ctl-border:#8d8a85;
   }
   :root[data-theme="dark"]{
     --bg:#15171a; --card:#1d2024; --ink:#eceae6; --ink-soft:#aeaba5; --line:#2e3338;
-    --rust:#e89368; --accent:#62bcc6; --black:#9bb4d4; --worse:#f3938f; --worse-bg:#2a1a1a; --hl:rgba(232,147,104,.16);
+    --rust:#e89368; --accent:#62bcc6; --black:#9bb4d4; --worse:#f3938f; --worse-bg:#2a1a1a; --hl:rgba(232,147,104,.16); --on-accent:#0c1a1e; --ctl-border:#6b726f;
   }
   :root[data-theme="contrast"]{
     --bg:#ffffff; --card:#ffffff; --ink:#000000; --ink-soft:#1a1a1a; --line:#000000;
-    --rust:#8a2e10; --accent:#00565e; --black:#000000; --worse:#9a0000; --worse-bg:#ffe3e0; --hl:#fff0c8;
+    --rust:#8a2e10; --accent:#00565e; --black:#000000; --worse:#9a0000; --worse-bg:#ffe3e0; --hl:#fff0c8; --on-accent:#ffffff; --ctl-border:#000000;
   }
   html{font-size:100%}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
-  a.skip{position:absolute;left:-9999px;top:0;background:var(--accent);color:#fff;padding:9px 14px;z-index:20;border-radius:0 0 8px 0;font-size:.95rem}
+  a.skip{position:absolute;left:-9999px;top:0;background:var(--accent);color:var(--on-accent);padding:9px 14px;z-index:20;border-radius:0 0 8px 0;font-size:.95rem}
   header.site{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
   .bar{max-width:940px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap}
   .bar .b{font-weight:700;font-size:.95rem}
-  .langtoggle button,.opts button{border:1px solid var(--line);background:transparent;color:var(--ink-soft);padding:6px 11px;border-radius:7px;cursor:pointer;font-size:.8rem;margin-left:6px}
-  .langtoggle button[aria-pressed="true"],.opts button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
-  button:focus-visible, a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .langtoggle button,.opts button{border:1px solid var(--ctl-border);background:transparent;color:var(--ink-soft);padding:6px 11px;border-radius:7px;cursor:pointer;font-size:.8rem;margin-left:6px}
+  .langtoggle button[aria-pressed="true"],.opts button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+  button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visible, select:focus-visible, textarea:focus, input:focus{outline:3px solid var(--accent);outline-offset:2px}
   .opts{border-bottom:1px solid var(--line);background:var(--card)}
   .opts .inner{max-width:940px;margin:0 auto;padding:8px 20px;display:flex;gap:20px;flex-wrap:wrap;align-items:center}
   .optgrp{display:flex;align-items:center}
   .optlab{font-size:.8rem;color:var(--ink-soft);margin-right:2px}
+  .tool{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:12px 0}
+  .tool h3{margin-top:4px}
+  label.fld{display:block;font-size:.85rem;font-weight:600;margin:12px 0 4px}
+  .tool textarea{width:100%;min-height:300px;font:.85rem/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--ink);background:var(--bg);border:1px solid var(--ctl-border);border-radius:8px;padding:10px;resize:vertical}
+  .tool fieldset{border:1px solid var(--line);border-radius:8px;padding:8px 12px 10px;margin:8px 0}
+  .tool legend{font-size:.85rem;font-weight:600;padding:0 4px}
+  .chk{display:flex;gap:9px;align-items:flex-start;margin:7px 0;font-size:.9rem;line-height:1.4}
+  .chk input{margin-top:2px;width:18px;height:18px;flex:0 0 auto}
+  .btn{display:inline-block;border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);padding:9px 14px;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;margin:10px 8px 0 0}
+  .btn.sec{background:transparent;color:var(--accent);border-color:var(--ctl-border)}
   main{max-width:940px;margin:0 auto;padding:24px 20px 50px}
   main:focus{outline:none}
   h1{font-size:1.68rem;line-height:1.2;margin:6px 0 8px}
@@ -72,8 +82,8 @@
   <div class="bar">
     <span class="b" id="brand">Black employees in the federal public service</span>
     <span class="langtoggle" role="group" aria-label="Language / Langue">
-      <button id="enBtn" aria-pressed="true">English</button>
-      <button id="frBtn" aria-pressed="false">Fran&ccedil;ais</button>
+      <button id="enBtn" lang="en" aria-pressed="true">English</button>
+      <button id="frBtn" lang="fr" aria-pressed="false">Fran&ccedil;ais</button>
     </span>
   </div>
   <div class="opts">
@@ -93,6 +103,7 @@
   </div>
 </header>
 <main id="content" tabindex="-1"></main>
+<div id="srstatus" class="sr-only" role="status" aria-live="polite"></div>
 <footer id="foot"></footer>
 <noscript><div style="max-width:940px;margin:0 auto;padding:24px 20px">This page needs JavaScript to display the data. / Cette page a besoin de JavaScript pour afficher les donn&eacute;es.</div></noscript>
 <script>
@@ -204,7 +215,9 @@ var DATA = {
   black: {Q12:69,Q24:51,Q42:51,Q43:60,Q45:53,Q47:71,Q49:54,Q52:50,Q53:82,Q58:12,Q63:53,Q65:15,Q70:50,Q72:12},
   all:   {Q12:67,Q24:72,Q42:51,Q43:55,Q45:51,Q47:69,Q49:65,Q52:43,Q53:78,Q58:12,Q63:50,Q65:9, Q70:52,Q72:11},
   q44: { disc:{black:41,all:25}, slt:{black:36,all:34} },
-  black2022: {Q12:75,Q24:56,Q42:58,Q43:69,Q45:63,Q47:76,Q49:61,Q52:56,Q53:87,Q58:11,Q63:58,Q65:11,Q70:54,Q72:13}
+  black2022: {Q12:75,Q24:56,Q42:58,Q43:69,Q45:63,Q47:76,Q49:61,Q52:56,Q53:87,Q58:11,Q63:58,Q65:11,Q70:54,Q72:13},
+  racismMH2022: { black:29, others:12, allPS2022:10, allPS2024:11 },
+  grounds2022: { race:72, colour:45 }
 };
 
 function L(en, fr){ return lang === "fr" ? fr : en; }
@@ -407,6 +420,146 @@ function subgroupPayTable(){
   return dataTable(L("Share earning $100,000 or more, by racialized subgroup, with reference lines. Black employees are near the bottom of this list.","Part gagnant 100 000 $ ou plus, par sous-groupe racis\u00e9, avec lignes de r\u00e9f\u00e9rence. Les employ\u00e9s noirs se situent pr\u00e8s du bas de cette liste."), head, rows);
 }
 
+var REQ_ITEMS = [
+  {id:"dept",   en:"Black representation by department and agency",                                                  fr:"La repr\u00e9sentation noire par minist\u00e8re et organisme"},
+  {id:"exec",   en:"Black executive counts at the EX-04 and EX-05 levels (currently suppressed)",                     fr:"Le d\u00e9nombrement des cadres noirs aux niveaux EX-04 et EX-05 (actuellement supprim\u00e9)"},
+  {id:"inter",  en:"Intersectional data for Black women and Black persons with disabilities (salary and executive)",  fr:"Des donn\u00e9es intersectionnelles pour les femmes noires et les personnes noires en situation de handicap (salaire et cadres)"},
+  {id:"funnel", en:"A current recruitment funnel by group, from application to appointment",                          fr:"Un entonnoir de recrutement courant par groupe, de la candidature \u00e0 la nomination"},
+  {id:"survey", en:"Organization-level 2024 survey results for Black employees where they are currently suppressed",  fr:"Les r\u00e9sultats du sondage de 2024 par organisation pour les employ\u00e9s noirs l\u00e0 o\u00f9 ils sont supprim\u00e9s"},
+  {id:"bench",  en:"A workforce-availability benchmark for Black employees, or the data to derive one",                fr:"Un rep\u00e8re de disponibilit\u00e9 au sein de la population active pour les employ\u00e9s noirs, ou les donn\u00e9es pour l'\u00e9tablir"},
+  {id:"mh",     en:"The 2024 racism-and-mental-health measure broken out for Black employees",                       fr:"La mesure 2024 du racisme et de la sant\u00e9 mentale ventil\u00e9e pour les employ\u00e9s noirs"}
+];
+
+function buildBriefingNote(){
+  var R = DATA.rep, M = DATA.median, b = DATA.black, e = DATA.all;
+  if(lang === "fr"){
+    return [
+"NOTE D'INFORMATION",
+"Objet : Les employ\u00e9s noirs dans la fonction publique f\u00e9d\u00e9rale",
+"Date : __________     Classification : Non classifi\u00e9",
+"",
+"ENJEU",
+"Pr\u00e9senter ce que les donn\u00e9es f\u00e9d\u00e9rales publi\u00e9es r\u00e9v\u00e8lent au sujet des employ\u00e9s noirs : repr\u00e9sentation, recrutement, avancement, r\u00e9mun\u00e9ration et r\u00e9sultats du sondage, ainsi que les lacunes de donn\u00e9es qui limitent la responsabilisation.",
+"",
+"CONTEXTE",
+"Les employ\u00e9s noirs sont compt\u00e9s au sein du groupe racis\u00e9 d\u00e9sign\u00e9 par la Loi sur l'\u00e9quit\u00e9 en emploi; il n'existe pas de rep\u00e8re de disponibilit\u00e9 propre aux employ\u00e9s noirs. Les chiffres administratifs couvrent l'administration publique centrale (environ "+intc(DATA.cpa.n)+" employ\u00e9s); les chiffres de perception proviennent du Sondage aupr\u00e8s des fonctionnaires f\u00e9d\u00e9raux.",
+"",
+"PRINCIPAUX CONSTATS",
+"1. Repr\u00e9sentation. Les employ\u00e9s noirs sont "+intc(R.n)+" personnes, soit "+pct(R.pct)+" de l'effectif (en hausse depuis "+pct(DATA.trend.black[0])+" en 2018), mais seulement "+pct(R.exPct)+" des cadres.",
+"2. Recrutement. Selon la v\u00e9rification de la Commission de la fonction publique, les candidats noirs passent de "+pct(10.3)+" des candidatures \u00e0 "+pct(6.6)+" des nominations (ratio de survie de 0,64); la perte se produit aux \u00e9tapes d'examen humain. Sur 77 embauches externes de cadres en 2024-2025, aucune n'\u00e9tait noire.",
+"3. R\u00e9mun\u00e9ration. Le salaire m\u00e9dian des employ\u00e9s noirs est de "+money(M.black2024)+" en 2024, contre "+money(M.all2024)+" pour l'ensemble, le plus bas de tous les groupes. "+pct(28.5)+" gagnent 100 000 $ ou plus, contre "+pct(41.5)+" de l'ensemble.",
+"4. Sondage (2024). Sur les mesures du quotidien, les employ\u00e9s noirs d\u00e9clarent autant ou plus que l'ensemble (respect "+b.Q53+"\u00a0%), mais "+b.Q65+"\u00a0% ont v\u00e9cu de la discrimination (contre "+e.Q65+"\u00a0%) et "+b.Q24+"\u00a0% seulement se sentiraient en s\u00e9curit\u00e9 de parler de racisme (contre "+e.Q24+"\u00a0%).",
+"5. \u00c9volution de 2022 \u00e0 2024. Les r\u00e9sultats des employ\u00e9s noirs ont recul\u00e9 sur les quatorze questions suivies : possibilit\u00e9s de promotion en baisse de 10 points, perfectionnement en baisse de 9, et la part ayant v\u00e9cu de la discrimination en hausse de 4 points. Aucune mesure ne s'est am\u00e9lior\u00e9e.",
+"6. Sant\u00e9 mentale. En 2022, "+DATA.racismMH2022.black+"\u00a0% des employ\u00e9s noirs ont d\u00e9clar\u00e9 que le racisme avait nui \u00e0 leur sant\u00e9 mentale, plus du double de l'ensemble des autres employ\u00e9s.",
+"",
+"LACUNES DE DONN\u00c9ES",
+"Il n'existe pas de repr\u00e9sentation noire par minist\u00e8re, aucune donn\u00e9e pour les femmes noires ni pour les personnes noires en situation de handicap, et les niveaux EX-04 et EX-05 ainsi que de nombreux r\u00e9sultats par organisation sont supprim\u00e9s.",
+"",
+"SOURCES",
+"Sondage aupr\u00e8s des fonctionnaires f\u00e9d\u00e9raux (2024 et 2022-2023); d\u00e9claration sur l'\u00e9quit\u00e9 en emploi du Conseil du Tr\u00e9sor; v\u00e9rification de la dotation de la Commission de la fonction publique; v\u00e9rification horizontale de la Commission canadienne des droits de la personne (2024)."
+    ].join("\n");
+  }
+  return [
+"BRIEFING NOTE",
+"Subject: Black employees in the federal public service",
+"Date: __________     Classification: Unclassified",
+"",
+"ISSUE",
+"To set out what the published federal data shows about Black employees: representation, recruitment, advancement, pay and survey results, along with the data gaps that limit accountability.",
+"",
+"BACKGROUND",
+"Black employees are counted within the racialized group designated by the Employment Equity Act; there is no workforce-availability benchmark specific to Black employees. Administrative figures cover the core public administration (about "+intc(DATA.cpa.n)+" employees); perception figures come from the Public Service Employee Survey.",
+"",
+"KEY FINDINGS",
+"1. Representation. Black employees number "+intc(R.n)+", or "+pct(R.pct)+" of the workforce (up from "+pct(DATA.trend.black[0])+" in 2018), but only "+pct(R.exPct)+" of executives.",
+"2. Recruitment. In the Public Service Commission staffing audit, Black candidates fall from "+pct(10.3)+" of applications to "+pct(6.6)+" of appointments (survival ratio 0.64); the loss is at the human-review stages. Of 77 external executive hires in 2024-25, none were Black.",
+"3. Pay. The median Black salary was "+money(M.black2024)+" in 2024, against "+money(M.all2024)+" for all employees, the lowest of any group. "+pct(28.5)+" earn $100,000 or more, against "+pct(41.5)+" of all employees.",
+"4. Survey (2024). On everyday measures Black employees report at or above all employees (respect "+b.Q53+"%), but "+b.Q65+"% experienced discrimination (against "+e.Q65+"%) and only "+b.Q24+"% would feel safe speaking about racism (against "+e.Q24+"%).",
+"5. Change 2022 to 2024. Black results declined on all fourteen tracked questions: opportunities for promotion down 10 points, career development down 9, and the share experiencing discrimination up 4 points. No measure improved.",
+"6. Mental health. In 2022, "+DATA.racismMH2022.black+"% of Black employees said racism had harmed their mental health, more than double all other employees.",
+"",
+"DATA GAPS",
+"There is no Black representation by department, no figures for Black women or Black persons with disabilities, and the EX-04 and EX-05 levels and many organization-level results are suppressed.",
+"",
+"SOURCES",
+"Public Service Employee Survey (2024 and 2022-2023); Treasury Board employment equity reporting; Public Service Commission staffing audit; Canadian Human Rights Commission horizontal audit (2024)."
+  ].join("\n");
+}
+
+function buildDataRequest(ids){
+  var chosen = REQ_ITEMS.filter(function(it){ return ids.indexOf(it.id) >= 0; });
+  var bullets = chosen.map(function(it, i){ return (i+1) + ". " + L(it.en, it.fr); }).join("\n");
+  if(lang === "fr"){
+    return [
+"DEMANDE DE DONN\u00c9ES",
+"Objet : Donn\u00e9es sur l'\u00e9quit\u00e9 en emploi concernant les employ\u00e9s noirs",
+"Date : __________",
+"",
+"Conform\u00e9ment \u00e0 la Loi sur l'\u00e9quit\u00e9 en emploi et \u00e0 l'Appel \u00e0 l'action sur la lutte contre le racisme, l'\u00e9quit\u00e9 et l'inclusion, nous demandons les donn\u00e9es suivantes afin de soutenir la responsabilisation et la prise de d\u00e9cisions fond\u00e9e sur des donn\u00e9es :",
+"",
+bullets || "(Aucun \u00e9l\u00e9ment s\u00e9lectionn\u00e9.)",
+"",
+"Dans la mesure du possible, veuillez fournir des s\u00e9ries pluriannuelles, indiquer clairement les valeurs supprim\u00e9es et leur seuil, et pr\u00e9ciser la source et la date de chaque tableau.",
+"",
+"Merci de votre collaboration."
+    ].join("\n");
+  }
+  return [
+"DATA REQUEST",
+"Subject: Employment equity data on Black employees",
+"Date: __________",
+"",
+"Under the Employment Equity Act and the Call to Action on Anti-Racism, Equity and Inclusion, we request the following data to support accountability and evidence-based decision-making:",
+"",
+bullets || "(No items selected.)",
+"",
+"Where possible, please provide multi-year series, clearly indicate suppressed values and the suppression threshold, and state the source and date of each table.",
+"",
+"Thank you for your assistance."
+  ].join("\n");
+}
+
+function escHtml(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function docWrap(text, title){
+  var paras = escHtml(text).split("\n").map(function(line){
+    return line.trim() === "" ? "<p style='margin:0;height:9px'></p>" : "<p style='margin:0 0 6px'>"+line+"</p>";
+  }).join("");
+  return "<!DOCTYPE html><html><head><meta charset='utf-8'><title>"+escHtml(title)+"</title></head>"
+    + "<body style=\"font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.4;color:#000\">"+paras+"</body></html>";
+}
+function dl(name, html){
+  var st = document.getElementById("srstatus");
+  try{
+    var blob = new Blob(["\ufeff"+html], {type:"application/msword"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a"); a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1500);
+    if(st) st.textContent = L("Download started: ", "T\u00e9l\u00e9chargement lanc\u00e9 : ") + name;
+  }catch(err){
+    if(st) st.textContent = L("Download could not start.", "Le t\u00e9l\u00e9chargement n'a pas pu d\u00e9marrer.");
+  }
+}
+function wireBuilders(){
+  var bt = document.getElementById("briefText");
+  if(bt){
+    bt.value = buildBriefingNote();
+    document.getElementById("briefRe").addEventListener("click", function(){ bt.value = buildBriefingNote(); });
+    document.getElementById("briefDl").addEventListener("click", function(){
+      dl(L("briefing-note-black-employees.doc","note-information-employes-noirs.doc"), docWrap(bt.value, document.title));
+    });
+  }
+  var rt = document.getElementById("reqText");
+  if(rt){
+    var selIds = function(){ return REQ_ITEMS.map(function(it){ return it.id; }).filter(function(id){ var c = document.getElementById("rq_"+id); return c && c.checked; }); };
+    rt.value = buildDataRequest(selIds());
+    document.getElementById("reqGen").addEventListener("click", function(){ rt.value = buildDataRequest(selIds()); });
+    document.getElementById("reqDl").addEventListener("click", function(){
+      dl(L("data-request-black-employees.doc","demande-donnees-employes-noirs.doc"), docWrap(rt.value, L("Data request","Demande de donn\u00e9es")));
+    });
+  }
+}
+
 function render(){
   var R = DATA.rep, b = DATA.black, e = DATA.all, M = DATA.median, D = DATA.deptDist;
   root.lang = lang;
@@ -574,6 +727,15 @@ function render(){
     "The 2022 figures are from the 2022-2023 Public Service Employee Survey results tables. The two cycles number their questions differently, so questions are matched by their wording, not by number. Both years use the same affirmative-response metric; for the harassment and discrimination questions, the figure is the share who reported experiencing it.",
     "Les chiffres de 2022 proviennent des tableaux de r\u00e9sultats du Sondage aupr\u00e8s des fonctionnaires f\u00e9d\u00e9raux de 2022-2023. Les deux cycles num\u00e9rotent leurs questions diff\u00e9remment; les questions sont donc appari\u00e9es selon leur libell\u00e9, et non selon leur num\u00e9ro. Les deux ann\u00e9es utilisent la m\u00eame mesure de r\u00e9ponses positives; pour les questions sur le harc\u00e8lement et la discrimination, le chiffre est la part ayant d\u00e9clar\u00e9 l'avoir v\u00e9cu."
   )+'</p>');
+  H.push('<h3>'+L("Racism and mental health","Racisme et sant\u00e9 mentale")+'</h3>');
+  H.push('<p>'+L(
+    "In the 2022 cycle, "+DATA.racismMH2022.black+"% of Black employees said that racism in their organization had harmed their mental health, more than double the "+DATA.racismMH2022.others+"% of all other employees. Public-service-wide, the same measure was "+DATA.racismMH2022.allPS2022+"% in 2022 and "+DATA.racismMH2022.allPS2024+"% in 2024. Among Black employees who experienced discrimination, the grounds were overwhelmingly race ("+DATA.grounds2022.race+"%) and colour ("+DATA.grounds2022.colour+"%).",
+    "Lors du cycle de 2022, "+DATA.racismMH2022.black+"\u00a0% des employ\u00e9s noirs ont d\u00e9clar\u00e9 que le racisme dans leur organisation avait nui \u00e0 leur sant\u00e9 mentale, soit plus du double des "+DATA.racismMH2022.others+"\u00a0% de l'ensemble des autres employ\u00e9s. \u00c0 l'\u00e9chelle de la fonction publique, la m\u00eame mesure \u00e9tait de "+DATA.racismMH2022.allPS2022+"\u00a0% en 2022 et de "+DATA.racismMH2022.allPS2024+"\u00a0% en 2024. Parmi les employ\u00e9s noirs ayant v\u00e9cu de la discrimination, les motifs \u00e9taient tr\u00e8s majoritairement la race ("+DATA.grounds2022.race+"\u00a0%) et la couleur ("+DATA.grounds2022.colour+"\u00a0%)."
+  )+'</p>');
+  H.push('<p class="note">'+L(
+    "These two figures are from the 2022 cycle; the 2024 public-service-wide survey breakdown used here does not report them for Black employees separately.",
+    "Ces deux chiffres proviennent du cycle de 2022; la ventilation du sondage de 2024 \u00e0 l'\u00e9chelle de la fonction publique utilis\u00e9e ici ne les pr\u00e9sente pas s\u00e9par\u00e9ment pour les employ\u00e9s noirs."
+  )+'</p>');
   H.push('<h3>'+L("Results across organizations","R\u00e9sultats d'une organisation \u00e0 l'autre")+'</h3>');
   H.push('<p>'+L(
     "Black survey results are published for "+D.withBlack+" of the "+D.total+" organizations. The public-service-wide gap on feeling safe to speak about racism (Black "+D.q24Black+"%, against all employees "+D.q24All+"%, a gap of "+(D.q24All - D.q24Black)+" points) is not an outlier. Across the "+D.q24n+" organizations with Black results, the median gap is "+D.q24MedGap+" points, and it reaches 20 points or more in "+D.q24ge20+" of them. On experiencing discrimination, Black employees report it more often than all employees in "+D.q65Higher+" of the "+D.q65n+" organizations where the two can be compared.",
@@ -602,7 +764,35 @@ function render(){
   ].map(function(x){ return "<li>"+x+"</li>"; }).join("");
   H.push('<ul>'+gaps+'</ul>');
 
-  /* 8. About */
+  /* 9. Builders */
+  H.push('<h2>'+L("Build a briefing note or data request","Cr\u00e9er une note d'information ou une demande de donn\u00e9es")+'</h2>');
+  H.push('<p>'+L(
+    "Two ready-to-adapt documents, assembled from the data on this page. Edit the text freely before downloading. Each downloads as a Word file.",
+    "Deux documents pr\u00eats \u00e0 adapter, assembl\u00e9s \u00e0 partir des donn\u00e9es de cette page. Modifiez le texte librement avant de t\u00e9l\u00e9charger. Chacun se t\u00e9l\u00e9charge en format Word."
+  )+'</p>');
+  H.push('<div class="tool">');
+  H.push('<h3>'+L("Briefing note","Note d'information")+'</h3>');
+  H.push('<label class="fld" for="briefText">'+L("Generated briefing note (editable)","Note d'information g\u00e9n\u00e9r\u00e9e (modifiable)")+'</label>');
+  H.push('<textarea id="briefText" aria-describedby="briefHint"></textarea>');
+  H.push('<p id="briefHint" class="note">'+L("A draft starting point, not a final or approved document.","Une \u00e9bauche de d\u00e9part, et non un document final ou approuv\u00e9.")+'</p>');
+  H.push('<button type="button" class="btn" id="briefDl">'+L("Download as Word (.doc)","T\u00e9l\u00e9charger en Word (.doc)")+'</button>');
+  H.push('<button type="button" class="btn sec" id="briefRe">'+L("Reset to generated text","R\u00e9tablir le texte g\u00e9n\u00e9r\u00e9")+'</button>');
+  H.push('</div>');
+  H.push('<div class="tool">');
+  H.push('<h3>'+L("Data request","Demande de donn\u00e9es")+'</h3>');
+  H.push('<p class="note">'+L("Select the data to request, then generate the memo.","S\u00e9lectionnez les donn\u00e9es \u00e0 demander, puis g\u00e9n\u00e9rez la note.")+'</p>');
+  H.push('<fieldset><legend>'+L("Data to request","Donn\u00e9es \u00e0 demander")+'</legend>');
+  REQ_ITEMS.forEach(function(it){
+    H.push('<div class="chk"><input type="checkbox" id="rq_'+it.id+'" value="'+it.id+'" checked><label for="rq_'+it.id+'">'+L(it.en, it.fr)+'</label></div>');
+  });
+  H.push('</fieldset>');
+  H.push('<button type="button" class="btn sec" id="reqGen">'+L("Generate request from selections","G\u00e9n\u00e9rer la demande \u00e0 partir des s\u00e9lections")+'</button>');
+  H.push('<label class="fld" for="reqText">'+L("Generated data request (editable)","Demande de donn\u00e9es g\u00e9n\u00e9r\u00e9e (modifiable)")+'</label>');
+  H.push('<textarea id="reqText"></textarea>');
+  H.push('<button type="button" class="btn" id="reqDl">'+L("Download as Word (.doc)","T\u00e9l\u00e9charger en Word (.doc)")+'</button>');
+  H.push('</div>');
+
+  /* 10. About */
   H.push('<h2>'+L("About this page","\u00c0 propos de cette page")+'</h2>');
   H.push('<p>'+L(
     "Two kinds of data, kept separate. The 2024 Public Service Employee Survey records what employees reported (perception). Treasury Board employment equity reporting and the Public Service Commission staffing audit record head counts, recruitment, hires, promotions, separations, region, occupation, executive levels, and salary (administrative). They are not interchangeable. Percentages and dollar figures are shown as published; suppressed small counts are not estimated.",
@@ -615,7 +805,8 @@ function render(){
         "Sources: Public Service Employee Survey, 2024 and 2022-2023 results tables (perception). Employment equity reporting, Treasury Board of Canada Secretariat: representation, flows, region, occupation and bilingual data to 2024-25, executive counts at March 31, 2025, median salary 2017-2024. Recruitment funnel: Public Service Commission staffing audit (2016-17 processes, published 2021). Workplace barriers: Canadian Human Rights Commission horizontal audit, 2024.",
         "Sources : Sondage aupr\u00e8s des fonctionnaires f\u00e9d\u00e9raux, 2024 et tableaux de r\u00e9sultats de 2022-2023 (perception). D\u00e9claration sur l'\u00e9quit\u00e9 en emploi, Secr\u00e9tariat du Conseil du Tr\u00e9sor du Canada : repr\u00e9sentation, mouvements, r\u00e9gion, profession et donn\u00e9es sur le bilinguisme jusqu'en 2024-2025, d\u00e9nombrements de cadres au 31 mars 2025, salaire m\u00e9dian 2017-2024. Entonnoir de recrutement : v\u00e9rification de la dotation de la Commission de la fonction publique (processus de 2016-2017, publi\u00e9 en 2021). Obstacles en milieu de travail : v\u00e9rification horizontale de la Commission canadienne des droits de la personne, 2024."
       )+'</p>'
-    + '<p class="src">Black employees \u00b7 '+L("standalone page","page autonome")+' \u00b7 Build 2026-06-29b</p>';
+    + '<p class="src">Black employees \u00b7 '+L("standalone page","page autonome")+' \u00b7 Build 2026-06-29c</p>';
+  wireBuilders();
 }
 
 /* ---- accessibility controls ---- */
