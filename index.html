@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Black employees in the federal public service</title>
+<style>
+  :root{
+    --bg:#fbfaf8; --card:#ffffff; --ink:#1a1a1a; --ink-soft:#5a5a5a; --line:#e4e1dc;
+    --rust:#9c4221; --accent:#1f6f78; --black:#1B2A41;
+    --worse:#9c2a2a; --worse-bg:#fdecea;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#15171a; --card:#1d2024; --ink:#eceae6; --ink-soft:#a8a59f; --line:#2e3338;
+           --rust:#e08a63; --accent:#5fb8c2; --black:#9bb4d4; --worse:#f08a86; --worse-bg:#2a1a1a; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  header.site{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+  .bar{max-width:940px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:12px;justify-content:space-between}
+  .bar .b{font-weight:700;font-size:15px}
+  .langtoggle button{border:1px solid var(--line);background:transparent;color:var(--ink-soft);padding:5px 11px;border-radius:7px;cursor:pointer;font-size:13px;margin-left:6px}
+  .langtoggle button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+  main{max-width:940px;margin:0 auto;padding:24px 20px 50px}
+  h1{font-size:27px;line-height:1.2;margin:6px 0 8px}
+  h2{font-size:20px;margin:36px 0 8px;padding-top:16px;border-top:1px solid var(--line)}
+  h3{font-size:16px;margin:22px 0 6px}
+  p{margin:10px 0;max-width:74ch}
+  .lede{font-size:17px;color:var(--ink-soft);max-width:76ch}
+  .caveat{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--rust);border-radius:8px;padding:14px 16px;margin:16px 0}
+  .caveat p{margin:0;max-width:none}
+  .note{font-size:13px;color:var(--ink-soft);margin:6px 0}
+  .kpis{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 6px}
+  .kpi{flex:1 1 150px;min-width:150px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 15px}
+  .kpi .v{font-size:23px;font-weight:700;line-height:1.1}
+  .kpi .l{font-size:13px;color:var(--ink-soft);margin-top:3px}
+  figure{margin:14px 0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  figcaption{font-size:13px;color:var(--ink-soft);margin-top:8px}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--card);margin:10px 0}
+  table{border-collapse:collapse;width:100%;font-size:14.5px}
+  caption{text-align:left;font-size:13px;color:var(--ink-soft);margin-bottom:8px}
+  th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{font-weight:600;font-size:13px;color:var(--ink-soft)}
+  td.num,th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+  td.worse{color:var(--worse);background:var(--worse-bg);font-weight:600}
+  tr.hl td{background:rgba(155,66,33,.08);font-weight:600}
+  tr.ref td{color:var(--ink-soft);font-style:italic}
+  ul{max-width:76ch;padding-left:20px}
+  li{margin:6px 0}
+  a{color:var(--accent)}
+  footer{max-width:940px;margin:0 auto;padding:16px 20px 44px;border-top:1px solid var(--line)}
+  .src{font-size:13px;color:var(--ink-soft);margin:6px 0}
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="bar">
+    <span class="b" id="brand">Black employees in the federal public service</span>
+    <span class="langtoggle" role="group" aria-label="Language / Langue">
+      <button id="enBtn" aria-pressed="true">English</button>
+      <button id="frBtn" aria-pressed="false">Fran&ccedil;ais</button>
+    </span>
+  </div>
+</header>
+<main id="content"></main>
+<footer id="foot"></footer>
+<noscript><div style="max-width:940px;margin:0 auto;padding:24px 20px">This page needs JavaScript to display the data. / Cette page a besoin de JavaScript pour afficher les donn&eacute;es.</div></noscript>
+<script>
+"use strict";
+var lang = "en";
+
+/* Every figure is transcribed from published Government of Canada data.
+   Perception: Public Service Employee Survey 2024.
+   Administrative: employment equity reporting (Treasury Board of Canada Secretariat),
+   representation, flows, region, occupation and bilingual data to 2024-25,
+   median salary 2017-2024, executive counts at March 31 2025. */
+var DATA = {
+  rep: { n:13741, pct:5.1, exPct:3.2, exTotal:7926, racialized:23.9, racializedBench:22.7 },
+  cpa: { n:266935, black:5.1 },
+  trend: { yrs:[2018,2019,2020,2021,2022,2023,2024,2025], black:[2.9,3.2,3.5,3.8,4.2,4.6,5.0,5.1] },
+  regions: [
+    ["National Capital Region",123178,6.2,"R\u00e9gion de la capitale nationale"],
+    ["Quebec (without the NCR)",28751,6.7,"Qu\u00e9bec (sans la RCN)"],
+    ["Ontario (without the NCR)",33224,5.7,"Ontario (sans la RCN)"],
+    ["Alberta",13265,5.5,"Alberta"],
+    ["Outside Canada",1552,5.3,"\u00c0 l'ext\u00e9rieur du Canada"],
+    ["Manitoba",8569,4.6,"Manitoba"],
+    ["Saskatchewan",5485,3.6,"Saskatchewan"],
+    ["Northwest Territories",488,3.3,"Territoires du Nord-Ouest"],
+    ["Nova Scotia",11187,2.5,"Nouvelle-\u00c9cosse"],
+    ["New Brunswick",11385,1.7,"Nouveau-Brunswick"],
+    ["British Columbia",21297,1.1,"Colombie-Britannique"],
+    ["Newfoundland and Labrador",4312,0.8,"Terre-Neuve-et-Labrador"],
+    ["Prince Edward Island",2519,0.6,"\u00cele-du-Prince-\u00c9douard"],
+    ["Yukon",385,null,"Yukon"],
+    ["Nunavut",300,null,"Nunavut"]
+  ],
+  occ: [
+    ["CT: Comptrollership",7048,8.4,"CT : Gestion financi\u00e8re"],
+    ["PA: Program and Administrative Services",115828,6.6,"PA : Services des programmes et de l'administration"],
+    ["HM: Human Resources Management",5186,6.4,"HM : Gestion des ressources humaines"],
+    ["EC: Economics and Social Science Services",26649,5.5,"EC : \u00c9conomique et services de sciences sociales"],
+    ["IT: Information Technology",21589,5.3,"IT : Technologies de l'information"],
+    ["NR: Architecture, Engineering and Land Survey",4929,3.0,"NR : Architecture, g\u00e9nie et arpentage"],
+    ["FB: Border Services",10696,2.7,"FB : Services frontaliers"],
+    ["SP: Applied Science and Patent Examination",10532,2.7,"SP : Sciences appliqu\u00e9es et examen des brevets"],
+    ["TC: Technical Services",11345,1.5,"TC : Services techniques"],
+    ["SV: Operational Services",10242,1.2,"SV : Services de l'exploitation"]
+  ],
+  occSuppressed: 18,
+  flow25: { rep:5.1, hires:6.4, promos:5.8, seps:4.0 },
+  flows: {
+    fy:["2016-17","2017-18","2018-19","2019-20","2020-21","2021-22","2022-23","2023-24","2024-25"],
+    hires:[2.7,3.0,4.5,5.0,5.1,5.6,7.1,6.9,6.4],
+    promos:[2.6,2.9,3.3,3.7,4.2,4.8,5.0,5.8,5.8],
+    seps:[2.8,2.0,1.8,2.1,2.4,2.8,3.4,3.8,4.0]
+  },
+  exlev: { labels:["EX-01","EX-02","EX-03","EX-04","EX-05","All EX"], black:[3.3,3.2,2.9,null,null,3.2] },
+  exflow: { intoEx:0.0, upWithin:5.2, outOf:2.2 },
+  median: {
+    yrs:[2017,2018,2019,2020,2021,2022,2023,2024],
+    black:[65450,68500,67450,67250,71150,71800,71200,77000],
+    all:[69550,72450,75750,76900,79900,81300,80850,85650],
+    all2024:85650, nvm2024:86500, vm2024:83050, ind2024:83350, dis2024:84400, black2024:77000
+  },
+  sal6: {
+    bands:["Under $50K","$50K to $74,999","$75K to $99,999","$100K to $124,999","$125K to $149,999","$150K and over"],
+    bandsFr:["Moins de 50 000 $","50 000 $ \u00e0 74 999 $","75 000 $ \u00e0 99 999 $","100 000 $ \u00e0 124 999 $","125 000 $ \u00e0 149 999 $","150 000 $ et plus"],
+    black:[0.9,40.8,29.8,17.9,8.1,2.5], all:[1.1,27.9,29.5,24.2,12.5,4.8]
+  },
+  sgsal: [
+    ["All employees",41.5,"ref"],["Racialized employees (all)",37.8,"ref"],
+    ["Chinese",47.4],["Southeast Asian",44.6],["Non-white West Asian, North African or Arab",43.9],
+    ["Person of mixed origin",40.7],["Other visible minority groups",40.5],["Japanese",38.8],
+    ["South Asian / East Indian",37.8],["Korean",36.5],["Non-white Latin American",31.1],
+    ["Black",28.5,"black"],["Filipino",21.4]
+  ],
+  comp: { women:57.3, ind:1.5, pwd:5.8 },
+  lang: { blackFr:48.5, allFr:30.2 },
+  bil: { black:95.6, all:94.4 },
+  age: { black:[12.8,25.7], all:[11.9,31.3] },
+  deptDist: { withBlack:61, total:71, q24Black:51, q24All:72, q24MedGap:22, q24ge20:40, q24n:60, q65Higher:40, q65n:42 },
+  Q: [
+    ["Q65","neg","Were a victim of discrimination in the past 12 months","Ont \u00e9t\u00e9 victimes de discrimination au cours des 12 derniers mois"],
+    ["Q58","neg","Were a victim of harassment in the past 12 months","Ont \u00e9t\u00e9 victimes de harc\u00e8lement au cours des 12 derniers mois"],
+    ["Q42","pos","Could start a formal recourse process without fear of reprisal","Pourraient entreprendre un processus de recours officiel sans crainte de repr\u00e9sailles"],
+    ["Q63","pos","Satisfied with how harassment is resolved","Satisfaits de la fa\u00e7on dont le harc\u00e8lement est r\u00e9gl\u00e9"],
+    ["Q70","pos","Satisfied with how discrimination is resolved","Satisfaits de la fa\u00e7on dont la discrimination est r\u00e9gl\u00e9e"],
+    ["Q72","pos","Satisfied with how racism complaints are resolved","Satisfaits de la fa\u00e7on dont les plaintes de racisme sont r\u00e9gl\u00e9es"],
+    ["Q45","pos","Believe they have opportunities for promotion","Croient avoir des possibilit\u00e9s de promotion"],
+    ["Q43","pos","Department supports their career development","Estiment que le minist\u00e8re soutient leur perfectionnement professionnel"],
+    ["Q47","pos","Department respects individual differences","Estiment que le minist\u00e8re respecte les diff\u00e9rences individuelles"],
+    ["Q49","pos","Department implements anti-racism initiatives","Estiment que le minist\u00e8re met en \u0153uvre des initiatives de lutte contre le racisme"],
+    ["Q24","pos","Would feel safe speaking about racism in the workplace without reprisal","Se sentiraient en s\u00e9curit\u00e9 de parler de racisme au travail sans crainte de repr\u00e9sailles"],
+    ["Q52","pos","The Clerk's Call to Action has had a positive impact","L'Appel \u00e0 l'action du greffier a eu une incidence positive"],
+    ["Q53","pos","Department treats them with respect","Estiment que le minist\u00e8re les traite avec respect"],
+    ["Q12","pos","Feel valued at work","Se sentent valoris\u00e9s au travail"]
+  ],
+  black: {Q12:69,Q24:51,Q42:51,Q43:60,Q45:53,Q47:71,Q49:54,Q52:50,Q53:82,Q58:12,Q63:53,Q65:15,Q70:50,Q72:12},
+  all:   {Q12:67,Q24:72,Q42:51,Q43:55,Q45:51,Q47:69,Q49:65,Q52:43,Q53:78,Q58:12,Q63:50,Q65:9, Q70:52,Q72:11},
+  q44: { disc:{black:41,all:25}, slt:{black:36,all:34} }
+};
+
+function L(en, fr){ return lang === "fr" ? fr : en; }
+function dot(s){ return lang === "fr" ? String(s).replace(".", ",") : String(s); }
+function pct(x){ var s = (typeof x === "number" && x % 1 !== 0) ? x.toFixed(1) : String(x); return dot(s) + (lang === "fr" ? " %" : "%"); }
+function intc(n){ try{ return n.toLocaleString(lang === "fr" ? "fr-CA" : "en-CA"); }catch(e){ return String(n); } }
+function money(v){ var r = Math.round(v), t; try{ t = r.toLocaleString(lang === "fr" ? "fr-CA" : "en-CA"); }catch(e){ t = String(r); } return lang === "fr" ? (t + " $") : ("$" + t); }
+function moneyK(v){ return lang === "fr" ? (Math.round(v/1000) + " k$") : ("$" + Math.round(v/1000) + "K"); }
+function kpi(v, l){ return '<div class="kpi"><div class="v">'+v+'</div><div class="l">'+l+'</div></div>'; }
+
+function svgBars(values, xlabels, opts){
+  opts = opts || {};
+  var w = 560, h = 158, padL = 8, padT = 16, padB = 28, n = values.length;
+  var mx = opts.max != null ? opts.max : Math.max.apply(null, values) * 1.18;
+  var gap = (w - 2*padL) / n, bw = gap * 0.6, bars = "", lab = "";
+  for(var i = 0; i < n; i++){
+    if(values[i] == null) continue;
+    var x = padL + i*gap + (gap - bw)/2, bh = (h - padT - padB) * (values[i]/mx), y = h - padB - bh;
+    bars += '<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+bh.toFixed(1)+'" rx="2" fill="'+(opts.color || "var(--black)")+'"/>';
+  }
+  [0, n-1].forEach(function(i){
+    if(values[i] == null) return;
+    var x = padL + i*gap + gap/2, y = h - padB - (h - padT - padB)*(values[i]/mx) - 4;
+    lab += '<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" font-size="11" fill="var(--ink-soft)" text-anchor="middle">'+pct(values[i])+'</text>';
+  });
+  var xt = [0, Math.floor((n-1)/2), n-1].map(function(i){
+    var x = padL + i*gap + gap/2;
+    return '<text x="'+x.toFixed(1)+'" y="'+(h-9)+'" font-size="10" fill="var(--ink-soft)" text-anchor="middle">'+xlabels[i]+'</text>';
+  }).join("");
+  return '<svg viewBox="0 0 '+w+' '+h+'" width="100%" height="auto" role="img" aria-label="'+(opts.aria||"")+'"><line x1="'+padL+'" y1="'+(h-padB)+'" x2="'+(w-padL)+'" y2="'+(h-padB)+'" stroke="var(--line)"/>'+bars+lab+xt+'</svg>';
+}
+
+function svgLines(series, xlabels, opts){
+  opts = opts || {};
+  var w = 560, h = opts.h || 215, padL = 46, padR = opts.padR || 92, padT = 14, padB = 28, n = xlabels.length;
+  var allv = [];
+  series.forEach(function(s){ s.values.forEach(function(v){ if(v != null) allv.push(v); }); });
+  if(opts.refLine != null) allv.push(opts.refLine);
+  var mn = opts.min != null ? opts.min : Math.min.apply(null, allv);
+  var mx = opts.max != null ? opts.max : Math.max.apply(null, allv);
+  var pad = (mx - mn) * 0.12 || 1;
+  if(opts.min == null) mn -= pad;
+  if(opts.max == null) mx += pad;
+  function X(i){ return padL + (w - padL - padR) * (n <= 1 ? 0 : i/(n-1)); }
+  function Y(v){ return padT + (h - padT - padB) * (1 - (v - mn)/((mx - mn) || 1)); }
+  var g = "";
+  if(opts.refLine != null){
+    var ry = Y(opts.refLine);
+    g += '<line x1="'+padL+'" y1="'+ry.toFixed(1)+'" x2="'+(w-padR).toFixed(1)+'" y2="'+ry.toFixed(1)+'" stroke="var(--ink-soft)" stroke-dasharray="4 3" stroke-width="1"/>'
+       + '<text x="'+(w-padR+4).toFixed(1)+'" y="'+(ry+3).toFixed(1)+'" font-size="10" fill="var(--ink-soft)">'+(opts.refLabel||"")+'</text>';
+  }
+  series.forEach(function(s){
+    var pts = s.values.map(function(v, i){ return v == null ? null : (X(i).toFixed(1)+","+Y(v).toFixed(1)); }).filter(Boolean);
+    g += '<polyline fill="none" stroke="'+s.color+'" stroke-width="2.2" points="'+pts.join(" ")+'"/>';
+    s.values.forEach(function(v, i){ if(v != null) g += '<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(v).toFixed(1)+'" r="2.3" fill="'+s.color+'"/>'; });
+    var li = s.values.length - 1; while(li >= 0 && s.values[li] == null) li--;
+    if(li >= 0) g += '<text x="'+(X(li)+5).toFixed(1)+'" y="'+(Y(s.values[li])+3).toFixed(1)+'" font-size="10.5" fill="'+s.color+'">'+s.label+'</text>';
+  });
+  [mn, (mn+mx)/2, mx].forEach(function(v){
+    g += '<text x="'+(padL-6)+'" y="'+(Y(v)+3).toFixed(1)+'" font-size="9.5" fill="var(--ink-soft)" text-anchor="end">'+(opts.yfmt ? opts.yfmt(v) : Math.round(v))+'</text>';
+  });
+  [0, Math.floor((n-1)/2), n-1].forEach(function(i){
+    g += '<text x="'+X(i).toFixed(1)+'" y="'+(h-9)+'" font-size="9.5" fill="var(--ink-soft)" text-anchor="middle">'+xlabels[i]+'</text>';
+  });
+  return '<svg viewBox="0 0 '+w+' '+h+'" width="100%" height="auto" role="img" aria-label="'+(opts.aria||"")+'">'+g+'</svg>';
+}
+
+function svgFunnel(){
+  var f = DATA.flow25;
+  var stages = [ [L("Hires","Embauches"), f.hires], [L("Workforce","Effectif"), f.rep], [L("Promotions","Promotions"), f.promos], [L("Executives","Cadres"), DATA.rep.exPct] ];
+  var w = 560, rowH = 34, pad = 8, labelW = 118, max = 7.0, barMax = w - labelW - 60, rows = "";
+  stages.forEach(function(s, i){
+    var y = pad + i*rowH, bw = barMax * (s[1]/max);
+    rows += '<text x="0" y="'+(y + rowH/2 + 4)+'" font-size="13" fill="var(--ink)">'+s[0]+'</text>'
+          + '<rect x="'+labelW+'" y="'+(y+7)+'" width="'+bw.toFixed(1)+'" height="'+(rowH-16)+'" rx="3" fill="var(--black)"/>'
+          + '<text x="'+(labelW + bw + 7).toFixed(1)+'" y="'+(y + rowH/2 + 4)+'" font-size="12.5" fill="var(--ink-soft)">'+pct(s[1])+'</text>';
+  });
+  var h = pad*2 + stages.length*rowH;
+  return '<svg viewBox="0 0 '+w+' '+h+'" width="100%" height="auto" role="img" aria-label="'+L("Black employees as a share of hires, the workforce, promotions, and executives.","Les employ\u00e9s noirs en proportion des embauches, de l'effectif, des promotions et des cadres.")+'">'+rows+'</svg>';
+}
+
+function simpleTable(caption, head, rows){
+  return '<div class="tblwrap"><table><caption>'+caption+'</caption><thead><tr>'+head+'</tr></thead><tbody>'+rows+'</tbody></table></div>';
+}
+
+function regionTable(){
+  var rs = DATA.regions.slice().sort(function(a, b){ return (b[2] == null ? -1 : b[2]) - (a[2] == null ? -1 : a[2]); });
+  var rows = rs.map(function(r){
+    return '<tr><td>'+(lang === "fr" ? r[3] : r[0])+'</td><td class="num">'+intc(r[1])+'</td><td class="num">'+(r[2] == null ? L("suppressed","supprim\u00e9") : pct(r[2]))+'</td></tr>';
+  }).join("");
+  var head = '<th scope="col">'+L("Region","R\u00e9gion")+'</th><th scope="col" class="num">'+L("Employees","Employ\u00e9s")+'</th><th scope="col" class="num">'+L("Black share","Part noire")+'</th>';
+  return simpleTable(L("Black share of employees by region, March 31, 2025.","Part des employ\u00e9s noirs par r\u00e9gion, 31 mars 2025."), head, rows);
+}
+
+function occTable(){
+  var os = DATA.occ.slice().sort(function(a, b){ return b[2] - a[2]; });
+  var rows = os.map(function(r){
+    return '<tr><td>'+(lang === "fr" ? r[3] : r[0])+'</td><td class="num">'+intc(r[1])+'</td><td class="num">'+pct(r[2])+'</td></tr>';
+  }).join("");
+  var head = '<th scope="col">'+L("Occupational category","Cat\u00e9gorie professionnelle")+'</th><th scope="col" class="num">'+L("Employees","Employ\u00e9s")+'</th><th scope="col" class="num">'+L("Black share","Part noire")+'</th>';
+  return simpleTable(L("Black share of employees by occupational category, March 31, 2025. Categories where the Black count is suppressed are omitted.","Part des employ\u00e9s noirs par cat\u00e9gorie professionnelle, 31 mars 2025. Les cat\u00e9gories o\u00f9 le d\u00e9nombrement noir est supprim\u00e9 sont omises."), head, rows);
+}
+
+function surveyTable(){
+  var rows = DATA.Q.map(function(q){
+    var code = q[0], neg = q[1] === "neg", label = lang === "fr" ? q[3] : q[2];
+    var b = DATA.black[code], e = DATA.all[code];
+    return { label: label, neg: neg, b: b, e: e, disadv: neg ? (b - e) : (e - b) };
+  }).filter(function(r){ return r.b != null && r.e != null; });
+  rows.sort(function(a, b){ return b.disadv - a.disadv; });
+  var tr = rows.map(function(r){
+    var diff = r.b - r.e, d = Math.round(Math.abs(diff)), worse = r.disadv > 0.0001, labtxt;
+    if(d === 0){ labtxt = L("about even", "\u00e0 parit\u00e9"); }
+    else if(r.neg){ labtxt = (diff > 0) ? d + L(" pts higher (worse)", " pts de plus (pire)") : d + L(" pts lower (better)", " pts de moins (mieux)"); }
+    else { labtxt = (diff > 0) ? d + L(" pts higher (better)", " pts de plus (mieux)") : d + L(" pts lower (worse)", " pts de moins (pire)"); }
+    var ql = r.label + (r.neg ? L(" (% who experienced it)", " (% l'ayant v\u00e9cu)") : "");
+    return '<tr><td>'+ql+'</td><td class="num'+(worse ? " worse" : "")+'">'+pct(r.b)+'</td><td class="num">'+pct(r.e)+'</td><td>'+labtxt+'</td></tr>';
+  }).join("");
+  var head = '<th scope="col">'+L("Survey question (2024)","Question du sondage (2024)")+'</th>'
+    + '<th scope="col" class="num">'+L("Black","Noirs")+'</th>'
+    + '<th scope="col" class="num">'+L("All employees","Tous les employ\u00e9s")+'</th>'
+    + '<th scope="col">'+L("Difference","\u00c9cart")+'</th>';
+  return simpleTable(L("2024 Public Service Employee Survey, Black employees compared with all employees, public-service-wide. Sorted to surface the largest Black disadvantages first.","Sondage aupr\u00e8s des fonctionnaires f\u00e9d\u00e9raux de 2024, employ\u00e9s noirs compar\u00e9s \u00e0 l'ensemble des employ\u00e9s, \u00e0 l'\u00e9chelle de la fonction publique. Tri\u00e9 pour faire ressortir d'abord les plus grands d\u00e9savantages."), head, tr);
+}
+
+function exLevelTable(){
+  var rows = DATA.exlev.labels.map(function(lab, i){
+    var v = DATA.exlev.black[i];
+    return '<tr><td>'+lab+'</td><td class="num">'+(v == null ? L("suppressed","supprim\u00e9") : pct(v))+'</td></tr>';
+  }).join("");
+  var head = '<th scope="col">'+L("Executive level","Niveau de cadre")+'</th><th scope="col" class="num">'+L("Black share","Part noire")+'</th>';
+  return simpleTable(L("Black share of executives by level, March 31, 2025. \u201cSuppressed\u201d means the count is too small to report.","Part des cadres noirs par niveau, 31 mars 2025. \u00ab Supprim\u00e9 \u00bb signifie que le d\u00e9nombrement est trop faible pour \u00eatre publi\u00e9."), head, rows);
+}
+
+function salaryBandTable(){
+  var bands = lang === "fr" ? DATA.sal6.bandsFr : DATA.sal6.bands;
+  var rows = bands.map(function(lab, i){
+    var bk = DATA.sal6.black[i], al = DATA.sal6.all[i], worse = (i >= 3 && bk < al);
+    return '<tr><td>'+lab+'</td><td class="num'+(worse ? " worse" : "")+'">'+pct(bk)+'</td><td class="num">'+pct(al)+'</td></tr>';
+  }).join("");
+  var head = '<th scope="col">'+L("Salary band","Tranche salariale")+'</th><th scope="col" class="num">'+L("Black","Noirs")+'</th><th scope="col" class="num">'+L("All employees","Tous les employ\u00e9s")+'</th>';
+  return simpleTable(L("Share of each group across salary bands, March 31, 2025.","R\u00e9partition de chaque groupe par tranche salariale, 31 mars 2025."), head, rows);
+}
+
+function subgroupPayTable(){
+  var sg = DATA.sgsal.slice().sort(function(a, b){ return b[1] - a[1]; });
+  var rows = sg.map(function(r){
+    var cls = r[2] === "black" ? " class=\"hl\"" : (r[2] === "ref" ? " class=\"ref\"" : "");
+    return '<tr'+cls+'><td>'+r[0]+'</td><td class="num">'+pct(r[1])+'</td></tr>';
+  }).join("");
+  var head = '<th scope="col">'+L("Group","Groupe")+'</th><th scope="col" class="num">'+L("Earning $100K and over","Gagnant 100 000 $ et plus")+'</th>';
+  return simpleTable(L("Share earning $100,000 or more, by racialized subgroup, with reference lines. Black employees are near the bottom of this list.","Part gagnant 100 000 $ ou plus, par sous-groupe racis\u00e9, avec lignes de r\u00e9f\u00e9rence. Les employ\u00e9s noirs se situent pr\u00e8s du bas de cette liste."), head, rows);
+}
+
+function render(){
+  var R = DATA.rep, b = DATA.black, e = DATA.all, M = DATA.median, D = DATA.deptDist;
+  document.documentElement.lang = lang;
+  document.title = L("Black employees in the federal public service", "Les employ\u00e9s noirs dans la fonction publique f\u00e9d\u00e9rale");
+  document.getElementById("brand").textContent = document.title;
+  document.getElementById("enBtn").setAttribute("aria-pressed", lang === "en" ? "true" : "false");
+  document.getElementById("frBtn").setAttribute("aria-pressed", lang === "fr" ? "true" : "false");
+  var H = [];
+
+  H.push('<h1>'+document.title+'</h1>');
+  H.push('<p class="lede">'+L(
+    "Everything the published federal data shows about Black employees specifically, in one place: how many and where they work, the path to leadership, pay, who Black employees are, and what they reported in the 2024 employee survey. Survey figures are what people reported. Administrative figures are head counts. Where a number is not published, the absence is named, not filled in.",
+    "Tout ce que les donn\u00e9es f\u00e9d\u00e9rales publi\u00e9es r\u00e9v\u00e8lent au sujet des employ\u00e9s noirs en particulier, r\u00e9uni : combien ils sont et o\u00f9 ils travaillent, le chemin vers le leadership, la r\u00e9mun\u00e9ration, qui ils sont, et ce qu'ils ont d\u00e9clar\u00e9 dans le sondage de 2024. Les chiffres du sondage sont d\u00e9clar\u00e9s. Les chiffres administratifs sont des d\u00e9nombrements. L\u00e0 o\u00f9 un chiffre n'est pas publi\u00e9, l'absence est signal\u00e9e, et non combl\u00e9e."
+  )+'</p>');
+  H.push('<div class="caveat"><p>'+L(
+    'There is no workforce-availability benchmark specific to Black employees. The Employment Equity Act designates "members of visible minorities" as one group, not Black people separately. So this page can say how many Black employees there are, but not whether that count is "enough" against an official target. Black employees are counted inside the racialized group, which is '+pct(R.racialized)+' of the workforce, above its '+pct(R.racializedBench)+' availability estimate. A group exceeding its overall benchmark can still mask a gap for a subgroup inside it.',
+    'Il n\'existe aucun rep\u00e8re de disponibilit\u00e9 au sein de la population active propre aux employ\u00e9s noirs. La Loi sur l\'\u00e9quit\u00e9 en emploi d\u00e9signe \u00ab les membres des minorit\u00e9s visibles \u00bb comme un seul groupe, et non les personnes noires s\u00e9par\u00e9ment. Cette page peut donc indiquer combien d\'employ\u00e9s noirs il y a, mais pas si ce nombre est \u00ab suffisant \u00bb par rapport \u00e0 une cible officielle. Les employ\u00e9s noirs sont compt\u00e9s au sein du groupe racis\u00e9, qui repr\u00e9sente '+pct(R.racialized)+' de l\'effectif, au-dessus de son estimation de disponibilit\u00e9 de '+pct(R.racializedBench)+'. Un groupe qui d\u00e9passe son rep\u00e8re global peut tout de m\u00eame masquer un \u00e9cart pour un sous-groupe qu\'il contient.'
+  )+'</p></div>');
+
+  /* 1. How many */
+  H.push('<h2>'+L("How many, and the trend","Combien, et la tendance")+'</h2>');
+  H.push('<div class="kpis">'
+    + kpi(intc(R.n), L("Black employees","employ\u00e9s noirs"))
+    + kpi(pct(R.pct), L("of the workforce","de l'effectif"))
+    + kpi(pct(R.exPct), L("of executives","des cadres"))
+    + kpi(money(M.black2024), L("median salary (2024)","salaire m\u00e9dian (2024)"))
+    + '</div>');
+  H.push('<figure>'+svgBars(DATA.trend.black, DATA.trend.yrs.map(String), { aria: L("Black share of the workforce rising from "+pct(DATA.trend.black[0])+" in 2018 to "+pct(DATA.trend.black[7])+" in 2025.","Part de l'effectif occup\u00e9e par les employ\u00e9s noirs, en hausse.") })
+    + '<figcaption>'+L("Black share of the workforce, fiscal years 2018 to 2025.","Part de l'effectif occup\u00e9e par les employ\u00e9s noirs, exercices 2018 \u00e0 2025.")+'</figcaption></figure>');
+  H.push('<p>'+L(
+    "The figures here cover the core public administration, about "+intc(DATA.cpa.n)+" employees. The Black share has risen every year, from "+pct(DATA.trend.black[0])+" in 2018 to "+pct(DATA.trend.black[7])+" in 2025. There is no published Black-specific history before 2018; the long series back to 1998 exists only for the four designated groups.",
+    "Les chiffres pr\u00e9sent\u00e9s ici couvrent l'administration publique centrale, soit environ "+intc(DATA.cpa.n)+" employ\u00e9s. La part noire a augment\u00e9 chaque ann\u00e9e, passant de "+pct(DATA.trend.black[0])+" en 2018 \u00e0 "+pct(DATA.trend.black[7])+" en 2025. Il n'existe aucun historique propre aux employ\u00e9s noirs avant 2018; la s\u00e9rie longue jusqu'en 1998 n'existe que pour les quatre groupes d\u00e9sign\u00e9s."
+  )+'</p>');
+
+  /* 2. Where they work */
+  H.push('<h2>'+L("Where Black employees work","O\u00f9 travaillent les employ\u00e9s noirs")+'</h2>');
+  H.push('<p>'+L(
+    "Representation is not even across the country. The Black share runs from "+pct(6.7)+" in Quebec outside the National Capital Region down to "+pct(0.6)+" in Prince Edward Island; British Columbia, a large employer, sits at "+pct(1.1)+". The National Capital Region holds the most public servants and a "+pct(6.2)+" Black share.",
+    "La repr\u00e9sentation n'est pas uniforme d'une r\u00e9gion \u00e0 l'autre. La part noire va de "+pct(6.7)+" au Qu\u00e9bec hors de la r\u00e9gion de la capitale nationale jusqu'\u00e0 "+pct(0.6)+" \u00e0 l'\u00cele-du-Prince-\u00c9douard; la Colombie-Britannique, un grand employeur, se situe \u00e0 "+pct(1.1)+". La r\u00e9gion de la capitale nationale compte le plus de fonctionnaires et une part noire de "+pct(6.2)+"."
+  )+'</p>');
+  H.push(regionTable());
+  H.push('<h3>'+L("By occupational category","Par cat\u00e9gorie professionnelle")+'</h3>');
+  H.push('<p>'+L(
+    "By kind of work, Black employees are most present in corporate and program streams: comptrollership ("+pct(8.4)+"), program and administrative services ("+pct(6.6)+"), and human resources ("+pct(6.4)+"). They are thin in technical and operational work, and the Black count is suppressed for "+DATA.occSuppressed+" smaller categories, including the Executive category itself.",
+    "Par type de travail, les employ\u00e9s noirs sont les plus pr\u00e9sents dans les secteurs corporatifs et de programmes : la gestion financi\u00e8re ("+pct(8.4)+"), les services des programmes et de l'administration ("+pct(6.6)+") et les ressources humaines ("+pct(6.4)+"). Ils sont peu nombreux dans le travail technique et op\u00e9rationnel, et le d\u00e9nombrement noir est supprim\u00e9 pour "+DATA.occSuppressed+" cat\u00e9gories plus petites, y compris la cat\u00e9gorie de la direction elle-m\u00eame."
+  )+'</p>');
+  H.push(occTable());
+  H.push('<p class="note">'+L(
+    "Black representation is published by region and by occupational category, but not by department: the department tables in the source data break out women, Indigenous Peoples, persons with disabilities, and racialized employees, not Black employees on their own.",
+    "La repr\u00e9sentation noire est publi\u00e9e par r\u00e9gion et par cat\u00e9gorie professionnelle, mais non par minist\u00e8re : les tableaux minist\u00e9riels des donn\u00e9es sources ventilent les femmes, les peuples autochtones, les personnes en situation de handicap et les employ\u00e9s racis\u00e9s, mais pas les employ\u00e9s noirs s\u00e9par\u00e9ment."
+  )+'</p>');
+
+  /* 3. Getting in vs getting up */
+  H.push('<h2>'+L("Getting in versus getting up","Entrer ou monter")+'</h2>');
+  H.push('<figure>'+svgFunnel()+'<figcaption>'+L("2024-25. Black employees as a share of hires, the workforce, promotions, and executives.","2024-2025. Les employ\u00e9s noirs en proportion des embauches, de l'effectif, des promotions et des cadres.")+'</figcaption></figure>');
+  H.push('<p>'+L(
+    "In 2024-25 Black employees were "+pct(DATA.flow25.hires)+" of hires and "+pct(DATA.flow25.seps)+" of separations, so the workforce share keeps rising; promotions were "+pct(DATA.flow25.promos)+", about the workforce share. Yet only "+pct(R.exPct)+" reach the executive ranks. The pipeline fills at the bottom and narrows toward the top.",
+    "En 2024-2025, les employ\u00e9s noirs repr\u00e9sentaient "+pct(DATA.flow25.hires)+" des embauches et "+pct(DATA.flow25.seps)+" des d\u00e9parts, de sorte que leur part de l'effectif continue d'augmenter; les promotions \u00e9taient de "+pct(DATA.flow25.promos)+", soit environ la part de l'effectif. Pourtant, seulement "+pct(R.exPct)+" atteignent les rangs de cadres. Le bassin se remplit \u00e0 la base et se r\u00e9tr\u00e9cit vers le sommet."
+  )+'</p>');
+  H.push('<figure>'+svgLines(
+    [ {label:L("Hires","Embauches"), color:"var(--black)", values:DATA.flows.hires},
+      {label:L("Promotions","Promotions"), color:"var(--accent)", values:DATA.flows.promos},
+      {label:L("Separations","D\u00e9parts"), color:"var(--rust)", values:DATA.flows.seps} ],
+    DATA.flows.fy, { min:0, max:8, yfmt:function(v){return Math.round(v)+"%";}, refLine:R.pct, refLabel:L("workforce "+pct(R.pct),"effectif "+pct(R.pct)),
+      aria:L("Black share of hires, promotions and separations across nine fiscal years.","Part noire des embauches, promotions et d\u00e9parts sur neuf exercices.") })
+    + '<figcaption>'+L("Black share of hires, promotions, and separations, fiscal years 2016-17 to 2024-25. Dashed line is the current workforce share.","Part noire des embauches, promotions et d\u00e9parts, exercices 2016-2017 \u00e0 2024-2025. La ligne pointill\u00e9e est la part actuelle de l'effectif.")+'</figcaption></figure>');
+  H.push('<h3>'+L("Inside the executive ranks","\u00c0 l'int\u00e9rieur des rangs de cadres")+'</h3>');
+  H.push(exLevelTable());
+  H.push('<p>'+L(
+    "Black representation is around "+pct(3.2)+" at the entry executive levels and is suppressed at EX-04 and EX-05, the most senior, because the counts are too small to report. Executive movements are few and swing year to year, but in the latest year Black employees were "+pct(DATA.exflow.intoEx)+" of moves into the executive ranks, "+pct(DATA.exflow.upWithin)+" of moves up within them, and "+pct(DATA.exflow.outOf)+" of moves out. The entry into leadership, not retention within it, is where the count is thinnest.",
+    "La repr\u00e9sentation noire est d'environ "+pct(3.2)+" aux niveaux d'entr\u00e9e de cadre et est supprim\u00e9e aux niveaux EX-04 et EX-05, les plus \u00e9lev\u00e9s, parce que les d\u00e9nombrements sont trop faibles pour \u00eatre publi\u00e9s. Les mouvements de cadres sont peu nombreux et varient d'une ann\u00e9e \u00e0 l'autre, mais lors de la derni\u00e8re ann\u00e9e, les employ\u00e9s noirs repr\u00e9sentaient "+pct(DATA.exflow.intoEx)+" des entr\u00e9es dans les rangs de cadres, "+pct(DATA.exflow.upWithin)+" des promotions \u00e0 l'int\u00e9rieur de ceux-ci et "+pct(DATA.exflow.outOf)+" des d\u00e9parts. C'est l'entr\u00e9e dans le leadership, et non le maintien en poste, qui est la plus mince."
+  )+'</p>');
+
+  /* 4. Pay */
+  H.push('<h2>'+L("Pay","R\u00e9mun\u00e9ration")+'</h2>');
+  H.push('<figure>'+svgLines(
+    [ {label:L("All","Tous"), color:"var(--accent)", values:M.all},
+      {label:L("Black","Noirs"), color:"var(--black)", values:M.black} ],
+    M.yrs.map(String), { yfmt:moneyK, aria:L("Median salary, Black employees compared with all employees, 2017 to 2024.","Salaire m\u00e9dian, employ\u00e9s noirs compar\u00e9s \u00e0 l'ensemble des employ\u00e9s, 2017 \u00e0 2024.") })
+    + '<figcaption>'+L("Median salary by year, 2017 to 2024.","Salaire m\u00e9dian par ann\u00e9e, 2017 \u00e0 2024.")+'</figcaption></figure>');
+  H.push('<p>'+L(
+    "This is the largest material gap on the page. In 2024 the median Black salary was "+money(M.black2024)+", against "+money(M.all2024)+" for all employees, a gap of about "+money(M.all2024 - M.black2024)+". Black employees have the lowest median salary of any group: below non-racialized employees ("+money(M.nvm2024)+"), racialized employees overall ("+money(M.vm2024)+"), Indigenous Peoples ("+money(M.ind2024)+"), and persons with disabilities ("+money(M.dis2024)+"). The gap has held since 2017.",
+    "C'est le plus grand \u00e9cart mat\u00e9riel de la page. En 2024, le salaire m\u00e9dian des employ\u00e9s noirs \u00e9tait de "+money(M.black2024)+", contre "+money(M.all2024)+" pour l'ensemble des employ\u00e9s, soit un \u00e9cart d'environ "+money(M.all2024 - M.black2024)+". Les employ\u00e9s noirs ont le salaire m\u00e9dian le plus bas de tous les groupes : sous les employ\u00e9s non racis\u00e9s ("+money(M.nvm2024)+"), les employ\u00e9s racis\u00e9s dans leur ensemble ("+money(M.vm2024)+"), les peuples autochtones ("+money(M.ind2024)+") et les personnes en situation de handicap ("+money(M.dis2024)+"). L'\u00e9cart persiste depuis 2017."
+  )+'</p>');
+  H.push('<h3>'+L("Across the salary range","Sur l'ensemble de l'\u00e9chelle salariale")+'</h3>');
+  H.push(salaryBandTable());
+  H.push('<p>'+L(
+    "Black employees are concentrated in the $50,000 to $74,999 band ("+pct(DATA.sal6.black[1])+" against "+pct(DATA.sal6.all[1])+" of all employees) and under-represented in every band above $100,000. Adding the top three bands, "+pct(28.5)+" of Black employees earn $100,000 or more, against "+pct(41.5)+" of all employees.",
+    "Les employ\u00e9s noirs sont concentr\u00e9s dans la tranche de 50 000 $ \u00e0 74 999 $ ("+pct(DATA.sal6.black[1])+" contre "+pct(DATA.sal6.all[1])+" de l'ensemble) et sous-repr\u00e9sent\u00e9s dans chaque tranche au-dessus de 100 000 $. En additionnant les trois tranches sup\u00e9rieures, "+pct(28.5)+" des employ\u00e9s noirs gagnent 100 000 $ ou plus, contre "+pct(41.5)+" de l'ensemble des employ\u00e9s."
+  )+'</p>');
+  H.push('<h3>'+L("Compared with other racialized subgroups","Compar\u00e9 aux autres sous-groupes racis\u00e9s")+'</h3>');
+  H.push(subgroupPayTable());
+  H.push('<p>'+L(
+    "The pay gap is not a feature of all racialized employees. Among racialized subgroups, Black employees sit near the bottom for reaching $100,000 or more ("+pct(28.5)+"), below the racialized average ("+pct(37.8)+") and far below Chinese ("+pct(47.4)+") and several others.",
+    "L'\u00e9cart salarial n'est pas une caract\u00e9ristique de tous les employ\u00e9s racis\u00e9s. Parmi les sous-groupes racis\u00e9s, les employ\u00e9s noirs se situent pr\u00e8s du bas pour ce qui est d'atteindre 100 000 $ ou plus ("+pct(28.5)+"), sous la moyenne racis\u00e9e ("+pct(37.8)+") et bien en dessous des employ\u00e9s chinois ("+pct(47.4)+") et de plusieurs autres."
+  )+'</p>');
+
+  /* 5. Who they are */
+  H.push('<h2>'+L("Who Black employees are","Qui sont les employ\u00e9s noirs")+'</h2>');
+  H.push('<div class="kpis">'
+    + kpi(pct(DATA.comp.women), L("are women","sont des femmes"))
+    + kpi(pct(DATA.comp.pwd), L("are persons with disabilities","sont en situation de handicap"))
+    + kpi(pct(DATA.comp.ind), L("are Indigenous","sont autochtones"))
+    + kpi(pct(DATA.lang.blackFr), L("French first official language","fran\u00e7ais comme premi\u00e8re langue officielle"))
+    + '</div>');
+  H.push('<p>'+L(
+    pct(DATA.comp.women)+" of Black employees are women, "+pct(DATA.comp.pwd)+" are persons with disabilities, and "+pct(DATA.comp.ind)+" are Indigenous, so a single Black figure already contains other equity dimensions. "+pct(DATA.lang.blackFr)+" report French as their first official language, well above the "+pct(DATA.lang.allFr)+" public-service average. Among those in bilingual positions, "+pct(DATA.bil.black)+" of Black employees meet the language requirements, the highest rate of any group, so the second-language-training barrier some report is about access to the training, not about meeting the standard once trained.",
+    pct(DATA.comp.women)+" des employ\u00e9s noirs sont des femmes, "+pct(DATA.comp.pwd)+" sont en situation de handicap et "+pct(DATA.comp.ind)+" sont autochtones; un seul chiffre sur les employ\u00e9s noirs contient donc d\u00e9j\u00e0 d'autres dimensions de l'\u00e9quit\u00e9. "+pct(DATA.lang.blackFr)+" d\u00e9clarent le fran\u00e7ais comme premi\u00e8re langue officielle, bien au-dessus de la moyenne de "+pct(DATA.lang.allFr)+" de la fonction publique. Parmi les titulaires de postes bilingues, "+pct(DATA.bil.black)+" des employ\u00e9s noirs satisfont aux exigences linguistiques, le taux le plus \u00e9lev\u00e9 de tous les groupes; l'obstacle de la formation en langue seconde que certains signalent concerne donc l'acc\u00e8s \u00e0 la formation, et non l'atteinte de la norme une fois form\u00e9s."
+  )+'</p>');
+  H.push('<p>'+L(
+    "The age profile is younger than the workforce as a whole: "+pct(DATA.age.black[0])+" are aged 20 to 29 (against "+pct(DATA.age.all[0])+") and "+pct(DATA.age.black[1])+" are aged 50 to 69 (against "+pct(DATA.age.all[1])+"), which fits a group still growing through hiring rather than thinning through retirement.",
+    "Le profil d'\u00e2ge est plus jeune que l'ensemble de l'effectif : "+pct(DATA.age.black[0])+" ont de 20 \u00e0 29 ans (contre "+pct(DATA.age.all[0])+") et "+pct(DATA.age.black[1])+" ont de 50 \u00e0 69 ans (contre "+pct(DATA.age.all[1])+"), ce qui correspond \u00e0 un groupe qui cro\u00eet encore par l'embauche plut\u00f4t qu'il ne diminue par les d\u00e9parts \u00e0 la retraite."
+  )+'</p>');
+  H.push('<p class="note">'+L(
+    "This is the most complete intersectional read the published data allows. There are no published figures for Black women, or Black persons with disabilities, as their own salary or executive lines.",
+    "Il s'agit de la lecture intersectionnelle la plus compl\u00e8te que permettent les donn\u00e9es publi\u00e9es. Il n'existe aucun chiffre publi\u00e9 pour les femmes noires, ni pour les personnes noires en situation de handicap, en tant que lignes salariales ou de cadres distinctes."
+  )+'</p>');
+
+  /* 6. Survey */
+  H.push('<h2>'+L("What Black employees report (2024 survey)","Ce que les employ\u00e9s noirs d\u00e9clarent (sondage de 2024)")+'</h2>');
+  H.push(surveyTable());
+  H.push('<p>'+L(
+    "The shape is consistent. On everyday items Black employees report at or above all employees: "+b.Q53+"% feel treated with respect (against "+e.Q53+"%) and "+b.Q12+"% feel valued (against "+e.Q12+"%). But "+b.Q65+"% were a victim of discrimination in the past 12 months, against "+e.Q65+"%; only "+b.Q24+"% would feel safe speaking about racism without reprisal, against "+e.Q24+"%; and "+b.Q49+"% see anti-racism initiatives implemented, against "+e.Q49+"%. The formal paths are where it breaks: "+b.Q72+"% are satisfied with how racism complaints are resolved. Respect in the room is high; recourse when something goes wrong is not.",
+    "La forme est constante. Sur les \u00e9l\u00e9ments du quotidien, les employ\u00e9s noirs d\u00e9clarent autant ou plus que l'ensemble : "+b.Q53+" % se sentent trait\u00e9s avec respect (contre "+e.Q53+" %) et "+b.Q12+" % se sentent valoris\u00e9s (contre "+e.Q12+" %). Mais "+b.Q65+" % ont \u00e9t\u00e9 victimes de discrimination au cours des 12 derniers mois, contre "+e.Q65+" %; seulement "+b.Q24+" % se sentiraient en s\u00e9curit\u00e9 de parler de racisme sans repr\u00e9sailles, contre "+e.Q24+" %; et "+b.Q49+" % constatent la mise en \u0153uvre d'initiatives de lutte contre le racisme, contre "+e.Q49+" %. C'est dans les voies formelles que cela se brise : "+b.Q72+" % sont satisfaits de la fa\u00e7on dont les plaintes de racisme sont r\u00e9gl\u00e9es. Le respect dans la salle est \u00e9lev\u00e9; le recours quand quelque chose tourne mal ne l'est pas."
+  )+'</p>');
+  H.push('<p>'+L(
+    "Two career-barrier questions sharpen the discrimination finding. "+DATA.q44.disc.black+"% of Black employees say discrimination has held back their career, against "+DATA.q44.disc.all+"% of all employees, the widest of these gaps. "+DATA.q44.slt.black+"% point to a lack of access to second-language training, against "+DATA.q44.slt.all+"%; given that nearly half of Black employees are Francophone, second-language access is not a side issue.",
+    "Deux questions sur les obstacles \u00e0 la carri\u00e8re pr\u00e9cisent le constat sur la discrimination. "+DATA.q44.disc.black+" % des employ\u00e9s noirs affirment que la discrimination a nui \u00e0 leur carri\u00e8re, contre "+DATA.q44.disc.all+" % de l'ensemble, le plus grand de ces \u00e9carts. "+DATA.q44.slt.black+" % \u00e9voquent un manque d'acc\u00e8s \u00e0 la formation en langue seconde, contre "+DATA.q44.slt.all+" %; comme pr\u00e8s de la moiti\u00e9 des employ\u00e9s noirs sont francophones, l'acc\u00e8s \u00e0 la langue seconde n'est pas un enjeu secondaire."
+  )+'</p>');
+  H.push('<h3>'+L("The same gap, in almost every organization","Le m\u00eame \u00e9cart, dans presque chaque organisation")+'</h3>');
+  H.push('<p>'+L(
+    "Black survey results are published for "+D.withBlack+" of the "+D.total+" organizations. The public-service-wide safe-speaking gap (Black "+D.q24Black+"% against all employees "+D.q24All+"%, "+(D.q24All - D.q24Black)+" points) is not an outlier. Across the "+D.q24n+" organizations with Black results, the median gap is "+D.q24MedGap+" points, and it reaches 20 points or more in "+D.q24ge20+" of them. On being a victim of discrimination, Black employees report it more often than all employees in "+D.q65Higher+" of the "+D.q65n+" organizations where the two can be compared.",
+    "Les r\u00e9sultats du sondage pour les employ\u00e9s noirs sont publi\u00e9s pour "+D.withBlack+" des "+D.total+" organisations. L'\u00e9cart \u00e0 l'\u00e9chelle de la fonction publique sur le fait de se sentir en s\u00e9curit\u00e9 pour parler de racisme (employ\u00e9s noirs "+D.q24Black+" % contre l'ensemble "+D.q24All+" %, "+(D.q24All - D.q24Black)+" points) n'est pas une exception. Dans les "+D.q24n+" organisations ayant des r\u00e9sultats pour les employ\u00e9s noirs, l'\u00e9cart m\u00e9dian est de "+D.q24MedGap+" points et atteint 20 points ou plus dans "+D.q24ge20+" d'entre elles. Pour ce qui est d'avoir \u00e9t\u00e9 victime de discrimination, les employ\u00e9s noirs le d\u00e9clarent plus souvent que l'ensemble dans "+D.q65Higher+" des "+D.q65n+" organisations o\u00f9 les deux peuvent \u00eatre compar\u00e9s."
+  )+'</p>');
+  H.push('<p class="note">'+L(
+    "Per-organization Black counts are small, so individual-organization figures move sharply and are not ranked here; the spread is the finding. Black results are 2024 only, and are suppressed entirely in "+(D.total - D.withBlack)+" of the "+D.total+" organizations. The 2022-to-2024 comparison published for the public service is not broken out for Black employees.",
+    "Les d\u00e9nombrements noirs par organisation sont faibles; les chiffres d'une organisation \u00e0 l'autre varient donc fortement et ne sont pas class\u00e9s ici; c'est l'\u00e9tendue qui est le constat. Les r\u00e9sultats pour les employ\u00e9s noirs ne portent que sur 2024 et sont enti\u00e8rement supprim\u00e9s dans "+(D.total - D.withBlack)+" des "+D.total+" organisations. La comparaison de 2022 \u00e0 2024 publi\u00e9e pour la fonction publique n'est pas ventil\u00e9e pour les employ\u00e9s noirs."
+  )+'</p>');
+
+  /* 7. Gaps */
+  H.push('<h2>'+L("What we still cannot see","Ce que l'on ne peut toujours pas voir")+'</h2>');
+  var gaps = [
+    L("No workforce-availability benchmark for Black employees: the Act designates visible minorities as one group, so there is no official target for the Black share.",
+      "Aucun rep\u00e8re de disponibilit\u00e9 pour les employ\u00e9s noirs : la Loi d\u00e9signe les minorit\u00e9s visibles comme un seul groupe, il n'y a donc pas de cible officielle pour la part noire."),
+    L("No representation by department: region and occupational category are broken out for Black employees, but the department tables are not.",
+      "Aucune repr\u00e9sentation par minist\u00e8re : la r\u00e9gion et la cat\u00e9gorie professionnelle sont ventil\u00e9es pour les employ\u00e9s noirs, mais pas les tableaux minist\u00e9riels."),
+    L("No long history before 2018, and no survey trend: representation is tracked from 2018, salary medians from 2017, but the 1998 history and the 2022-2024 survey comparison exist only for the broader groups.",
+      "Aucun historique long avant 2018 et aucune tendance de sondage : la repr\u00e9sentation est suivie depuis 2018, les salaires m\u00e9dians depuis 2017, mais l'historique de 1998 et la comparaison de sondage de 2022 \u00e0 2024 n'existent que pour les groupes plus larges."),
+    L("No intersectional lines for Black women or Black persons with disabilities, beyond the composition shares above.",
+      "Aucune ligne intersectionnelle pour les femmes noires ou les personnes noires en situation de handicap, au-del\u00e0 des parts de composition ci-dessus."),
+    L("Suppressed small counts: Black survey data is suppressed in "+(DATA.deptDist.total - DATA.deptDist.withBlack)+" of "+DATA.deptDist.total+" organizations, executive levels EX-04 and EX-05 are suppressed, and the Black count is suppressed in "+DATA.occSuppressed+" occupational categories and in two territories.",
+      "Petits d\u00e9nombrements supprim\u00e9s : les donn\u00e9es de sondage pour les employ\u00e9s noirs sont supprim\u00e9es dans "+(DATA.deptDist.total - DATA.deptDist.withBlack)+" des "+DATA.deptDist.total+" organisations, les niveaux EX-04 et EX-05 sont supprim\u00e9s, et le d\u00e9nombrement noir est supprim\u00e9 dans "+DATA.occSuppressed+" cat\u00e9gories professionnelles et dans deux territoires."),
+    L("Who holds each salary band (for example, what share of the lowest band is Black) is published for the four designated groups, not for Black employees specifically.",
+      "La composition de chaque tranche salariale (par exemple, quelle part de la tranche la plus basse est noire) est publi\u00e9e pour les quatre groupes d\u00e9sign\u00e9s, et non pour les employ\u00e9s noirs en particulier.")
+  ].map(function(x){ return "<li>"+x+"</li>"; }).join("");
+  H.push('<ul>'+gaps+'</ul>');
+
+  /* 8. About */
+  H.push('<h2>'+L("About this page","\u00c0 propos de cette page")+'</h2>');
+  H.push('<p>'+L(
+    "Two kinds of data, kept apart. The 2024 Public Service Employee Survey records what employees reported (perception). Treasury Board employment equity reporting records head counts, hires, promotions, separations, region, occupation, executive levels, and salary (administrative). They are not interchangeable. Percentages and dollar figures are shown as published; suppressed small counts are not estimated.",
+    "Deux types de donn\u00e9es, gard\u00e9s distincts. Le Sondage aupr\u00e8s des fonctionnaires f\u00e9d\u00e9raux de 2024 consigne ce que les employ\u00e9s ont d\u00e9clar\u00e9 (perception). La d\u00e9claration sur l'\u00e9quit\u00e9 en emploi du Conseil du Tr\u00e9sor consigne les d\u00e9nombrements, les embauches, les promotions, les d\u00e9parts, la r\u00e9gion, la profession, les niveaux de cadres et les salaires (donn\u00e9es administratives). Ces deux sources ne sont pas interchangeables. Les pourcentages et les montants en dollars sont pr\u00e9sent\u00e9s tels que publi\u00e9s; les petits d\u00e9nombrements supprim\u00e9s ne sont pas estim\u00e9s."
+  )+'</p>');
+
+  document.getElementById("content").innerHTML = H.join("");
+  document.getElementById("foot").innerHTML =
+      '<p class="src">'+L(
+        "Sources: Public Service Employee Survey, 2024 (perception). Employment equity reporting, Treasury Board of Canada Secretariat: representation, flows, region, occupation and bilingual data to 2024-25, executive counts at March 31, 2025, median salary 2017-2024.",
+        "Sources : Sondage aupr\u00e8s des fonctionnaires f\u00e9d\u00e9raux, 2024 (perception). D\u00e9claration sur l'\u00e9quit\u00e9 en emploi, Secr\u00e9tariat du Conseil du Tr\u00e9sor du Canada : repr\u00e9sentation, mouvements, r\u00e9gion, profession et donn\u00e9es sur le bilinguisme jusqu'en 2024-2025, d\u00e9nombrements de cadres au 31 mars 2025, salaire m\u00e9dian 2017-2024."
+      )+'</p>'
+    + '<p class="src">Black employees \u00b7 '+L("standalone page","page autonome")+' \u00b7 Build 2026-06-28c</p>';
+}
+
+document.getElementById("enBtn").addEventListener("click", function(){ lang = "en"; render(); });
+document.getElementById("frBtn").addEventListener("click", function(){ lang = "fr"; render(); });
+render();
+</script>
+</body>
+</html>
