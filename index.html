@@ -42,6 +42,7 @@
   .chk input{margin-top:2px;width:18px;height:18px;flex:0 0 auto}
   .btn{display:inline-block;border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);padding:9px 14px;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;margin:10px 8px 0 0}
   .btn.sec{background:transparent;color:var(--accent);border-color:var(--ctl-border)}
+  .tool select{font-size:.95rem;padding:7px 8px;border:1px solid var(--ctl-border);border-radius:7px;background:var(--bg);color:var(--ink);max-width:100%;margin-bottom:4px}
   main{max-width:940px;margin:0 auto;padding:24px 20px 50px}
   main:focus{outline:none}
   h1{font-size:1.68rem;line-height:1.2;margin:6px 0 8px}
@@ -218,6 +219,70 @@ var DATA = {
   black2022: {Q12:75,Q24:56,Q42:58,Q43:69,Q45:63,Q47:76,Q49:61,Q52:56,Q53:87,Q58:11,Q63:58,Q65:11,Q70:54,Q72:13},
   racismMH2022: { black:29, others:12, allPS2022:10, allPS2024:11 },
   grounds2022: { race:72, colour:45 }
+};
+
+var DEPTSURV = {
+  "Public Service":{fr:"Fonction publique",q:{"Q12": 69, "Q24": 51, "Q42": 51, "Q43": 60, "Q45": 53, "Q47": 71, "Q49": 54, "Q52": 50, "Q53": 82, "Q58": 12, "Q63": 53, "Q65": 15, "Q70": 50, "Q72": 12}},
+  "Administrative Tribunals Support Service of Canada":{fr:"Service canadien d\u2019appui aux tribunaux administratifs",q:{"Q12": 69, "Q24": 44, "Q42": 31, "Q43": 41, "Q45": 26, "Q47": 46, "Q49": 38, "Q52": 45, "Q53": 66, "Q63": 10}},
+  "Agriculture and Agri-Food Canada":{fr:"Agriculture et Agroalimentaire Canada",q:{"Q12": 62, "Q24": 47, "Q42": 51, "Q43": 63, "Q45": 45, "Q47": 71, "Q49": 40, "Q52": 39, "Q53": 84, "Q58": 10, "Q63": 57, "Q65": 20, "Q70": 53, "Q72": 8}},
+  "Atlantic Canada Opportunities Agency":{fr:"Agence de promotion \u00e9conomique du Canada atlantique",q:{"Q12": 87, "Q24": 67, "Q42": 50, "Q43": 68, "Q45": 57, "Q47": 82, "Q49": 40, "Q52": 32, "Q53": 100, "Q63": 48}},
+  "Canada Border Services Agency":{fr:"Agence des services frontaliers du Canada",q:{"Q12": 59, "Q24": 50, "Q42": 39, "Q43": 43, "Q45": 46, "Q47": 55, "Q49": 38, "Q52": 33, "Q53": 72, "Q58": 18, "Q63": 32, "Q65": 21, "Q70": 32, "Q72": 2}},
+  "Canada Economic Development for Quebec Regions":{fr:"D\u00e9veloppement \u00e9conomique Canada pour les r\u00e9gions du Qu\u00e9bec",q:{"Q12": 94, "Q24": 58, "Q42": 28, "Q43": 54, "Q45": 57, "Q47": 87, "Q49": 54, "Q52": 27, "Q53": 94, "Q58": 0}},
+  "Canada Energy Regulator":{fr:"R\u00e9gie de l'\u00e9nergie du Canada",q:{"Q12": 83, "Q24": 18, "Q42": 50, "Q43": 76, "Q45": 60, "Q47": 80, "Q49": 57, "Q52": 61, "Q53": 88, "Q65": 24}},
+  "Canada Revenue Agency":{fr:"Agence du revenu du Canada",q:{"Q12": 71, "Q24": 52, "Q42": 57, "Q43": 64, "Q45": 58, "Q47": 75, "Q49": 62, "Q52": 56, "Q53": 84, "Q58": 8, "Q63": 65, "Q65": 10, "Q70": 61}},
+  "Canada School of Public Service":{fr:"\u00c9cole de la fonction publique du Canada",q:{"Q12": 61, "Q24": 54, "Q42": 24, "Q43": 56, "Q45": 49, "Q47": 65, "Q49": 42, "Q52": 49, "Q53": 86, "Q65": 21}},
+  "Canadian Food Inspection Agency":{fr:"Agence canadienne d'inspection des aliments",q:{"Q12": 68, "Q24": 52, "Q42": 54, "Q43": 67, "Q45": 48, "Q47": 70, "Q49": 68, "Q52": 52, "Q53": 82, "Q58": 14, "Q63": 66, "Q65": 14, "Q70": 53, "Q72": 27}},
+  "Canadian Grain Commission":{fr:"Commission canadienne des grains",q:{"Q12": 81, "Q24": 76, "Q42": 82, "Q43": 72, "Q45": 56, "Q47": 81, "Q49": 77, "Q52": 76, "Q53": 90, "Q58": 0, "Q65": 0}},
+  "Canadian Heritage":{fr:"Patrimoine canadien",q:{"Q12": 68, "Q24": 52, "Q42": 51, "Q43": 58, "Q45": 58, "Q47": 64, "Q49": 50, "Q52": 61, "Q53": 74, "Q58": 27, "Q65": 22}},
+  "Canadian Human Rights Commission":{fr:"Commission canadienne des droits de la personne",q:{"Q12": 83, "Q24": 84, "Q42": 50, "Q43": 78, "Q45": 73, "Q47": 84, "Q49": 66, "Q52": 73, "Q53": 84, "Q63": 72, "Q65": 0, "Q70": 67}},
+  "Canadian Institutes of Health Research":{fr:"Instituts de recherche en sant\u00e9 du Canada",q:{"Q12": 75, "Q24": 43, "Q42": 35, "Q43": 45, "Q45": 29, "Q47": 62, "Q49": 31, "Q52": 42, "Q53": 88, "Q58": 23}},
+  "Canadian Nuclear Safety Commission":{fr:"Commission canadienne de s\u00fbret\u00e9 nucl\u00e9aire",q:{"Q12": 86, "Q24": 50, "Q42": 61, "Q43": 75, "Q45": 50, "Q47": 90, "Q49": 57, "Q52": 57, "Q53": 93, "Q63": 50, "Q70": 61}},
+  "Canadian Radio-television and Telecommunications Commission":{fr:"Conseil de la radiodiffusion et des t\u00e9l\u00e9communications canadiennes",q:{"Q12": 94, "Q24": 61, "Q42": 46, "Q43": 31, "Q45": 33, "Q47": 73, "Q49": 47, "Q52": 42, "Q53": 76}},
+  "Canadian Space Agency":{fr:"Agence spatiale canadienne",q:{"Q12": 71, "Q24": 46, "Q42": 33, "Q43": 44, "Q45": 59, "Q47": 62, "Q49": 39, "Q52": 51, "Q53": 69, "Q65": 23}},
+  "Canadian Transportation Agency":{fr:"Office des transports du Canada",q:{"Q12": 72, "Q24": 52, "Q42": 13, "Q43": 46, "Q45": 61, "Q47": 80, "Q49": 41, "Q52": 28, "Q53": 80}},
+  "Communications Security Establishment Canada":{fr:"Centre de la s\u00e9curit\u00e9 des t\u00e9l\u00e9communications Canada",q:{"Q12": 84, "Q24": 68, "Q42": 72, "Q43": 80, "Q45": 79, "Q47": 82, "Q49": 73, "Q52": 66, "Q53": 98, "Q58": 14, "Q63": 64, "Q65": 10, "Q70": 61}},
+  "Correctional Service Canada":{fr:"Service correctionnel Canada",q:{"Q12": 42, "Q24": 43, "Q42": 40, "Q43": 41, "Q45": 47, "Q47": 48, "Q49": 39, "Q52": 32, "Q53": 61, "Q58": 29, "Q63": 28, "Q65": 39, "Q70": 29}},
+  "Courts Administration Service":{fr:"Service administratif des tribunaux judiciaires",q:{"Q12": 76, "Q24": 48, "Q42": 43, "Q43": 50, "Q45": 35, "Q47": 45, "Q49": 50, "Q52": 30, "Q53": 83, "Q58": 23, "Q65": 14}},
+  "Crown-Indigenous Relations and Northern Affairs Canada":{fr:"Relations Couronne-Autochtones et Affaires du Nord Canada",q:{"Q12": 62, "Q24": 50, "Q42": 46, "Q43": 56, "Q45": 51, "Q47": 61, "Q49": 41, "Q52": 47, "Q53": 89, "Q58": 14, "Q65": 22}},
+  "Department of Finance Canada":{fr:"Minist\u00e8re des Finances Canada",q:{"Q12": 71, "Q24": 48, "Q42": 51, "Q43": 48, "Q45": 60, "Q47": 56, "Q49": 37, "Q52": 25, "Q53": 76}},
+  "Department of Justice Canada":{fr:"Minist\u00e8re de la Justice",q:{"Q12": 73, "Q24": 43, "Q42": 50, "Q43": 59, "Q45": 44, "Q47": 74, "Q49": 54, "Q52": 49, "Q53": 80, "Q58": 10, "Q65": 12, "Q70": 35, "Q72": 0}},
+  "Employment and Social Development Canada":{fr:"Emploi et D\u00e9veloppement social Canada",q:{"Q12": 71, "Q24": 48, "Q42": 57, "Q43": 66, "Q45": 58, "Q47": 75, "Q49": 62, "Q52": 55, "Q53": 86, "Q58": 8, "Q63": 57, "Q65": 12, "Q70": 56}},
+  "Environment and Climate Change Canada":{fr:"Environnement et Changement climatique Canada",q:{"Q12": 81, "Q24": 57, "Q42": 52, "Q43": 64, "Q45": 56, "Q47": 75, "Q49": 47, "Q52": 47, "Q53": 82, "Q58": 12, "Q63": 59, "Q65": 16, "Q70": 55}},
+  "Federal Economic Development Agency for Southern Ontario":{fr:"Agence f\u00e9d\u00e9rale de d\u00e9veloppement \u00e9conomique pour le Sud de l'Ontario",q:{"Q12": 43, "Q24": 42, "Q42": 20, "Q43": 17, "Q45": 8, "Q47": 51, "Q49": 27, "Q52": 25, "Q53": 51}},
+  "Financial Transactions and Reports Analysis Centre of Canada":{fr:"Centre d'analyse des op\u00e9rations et d\u00e9clarations financi\u00e8res du Canada",q:{"Q12": 63, "Q24": 55, "Q42": 40, "Q43": 56, "Q45": 36, "Q47": 68, "Q49": 35, "Q52": 34, "Q53": 75, "Q70": 30}},
+  "Fisheries and Oceans Canada":{fr:"P\u00eaches et Oc\u00e9ans Canada",q:{"Q12": 74, "Q24": 58, "Q42": 46, "Q43": 61, "Q45": 59, "Q47": 69, "Q49": 50, "Q52": 43, "Q53": 85, "Q58": 6, "Q63": 49, "Q65": 13, "Q70": 40, "Q72": 0}},
+  "Global Affairs Canada":{fr:"Affaires mondiales Canada",q:{"Q12": 64, "Q24": 44, "Q42": 30, "Q43": 42, "Q45": 44, "Q47": 53, "Q49": 43, "Q52": 50, "Q53": 70, "Q58": 11, "Q63": 33, "Q65": 19, "Q72": 8}},
+  "Health Canada":{fr:"Sant\u00e9 Canada",q:{"Q12": 65, "Q24": 50, "Q42": 42, "Q43": 50, "Q45": 44, "Q47": 67, "Q49": 50, "Q52": 47, "Q53": 81, "Q58": 12, "Q63": 56, "Q65": 14, "Q70": 44, "Q72": 7}},
+  "Housing, Infrastructure and Communities Canada":{fr:"Logement, Infrastructures et Collectivit\u00e9s Canada",q:{"Q12": 61, "Q24": 43, "Q42": 36, "Q43": 44, "Q45": 39, "Q47": 64, "Q49": 35, "Q52": 46, "Q53": 78, "Q58": 16, "Q63": 41, "Q65": 22}},
+  "Immigration and Refugee Board of Canada":{fr:"Commission de l\u2019immigration et du statut de r\u00e9fugi\u00e9 du Canada",q:{"Q12": 66, "Q24": 45, "Q42": 51, "Q43": 47, "Q45": 43, "Q47": 68, "Q49": 45, "Q52": 46, "Q53": 85, "Q58": 11, "Q63": 46, "Q65": 10, "Q70": 52, "Q72": 0}},
+  "Immigration, Refugees and Citizenship Canada":{fr:"Immigration, R\u00e9fugi\u00e9s et Citoyennet\u00e9 Canada",q:{"Q12": 63, "Q24": 52, "Q42": 47, "Q43": 55, "Q45": 50, "Q47": 69, "Q49": 56, "Q52": 54, "Q53": 82, "Q58": 11, "Q63": 53, "Q65": 14, "Q70": 48}},
+  "Impact Assessment Agency of Canada":{fr:"Agence d'\u00e9valuation d'impact du Canada",q:{"Q12": 64, "Q24": 43, "Q42": 44, "Q43": 74, "Q45": 56, "Q47": 64, "Q49": 49, "Q52": 26, "Q53": 71}},
+  "Indigenous Services Canada":{fr:"Services aux autochtones Canada",q:{"Q12": 58, "Q24": 48, "Q42": 39, "Q43": 56, "Q45": 49, "Q47": 61, "Q49": 40, "Q52": 41, "Q53": 72, "Q58": 15, "Q63": 40, "Q65": 15, "Q70": 39}},
+  "Innovation, Science and Economic Development Canada":{fr:"Innovation, Sciences et D\u00e9veloppement \u00e9conomique Canada",q:{"Q12": 79, "Q24": 53, "Q42": 58, "Q43": 69, "Q45": 53, "Q47": 77, "Q49": 55, "Q52": 59, "Q53": 90, "Q58": 8, "Q63": 55, "Q65": 12, "Q70": 62}},
+  "Library and Archives Canada":{fr:"Biblioth\u00e8que et Archives Canada",q:{"Q12": 95, "Q24": 68, "Q42": 72, "Q43": 78, "Q45": 74, "Q47": 95, "Q49": 44, "Q52": 52, "Q53": 95}},
+  "Micro-organizations combined":{fr:"Micro-organisations combin\u00e9es",q:{"Q12": 72, "Q24": 54, "Q42": 58, "Q43": 62, "Q45": 50, "Q47": 76, "Q49": 51, "Q52": 36, "Q53": 81, "Q63": 60, "Q65": 10, "Q70": 61}},
+  "National Defence":{fr:"Minist\u00e8re de la D\u00e9fense nationale",q:{"Q12": 67, "Q24": 52, "Q42": 50, "Q43": 53, "Q45": 46, "Q47": 65, "Q49": 47, "Q52": 41, "Q53": 80, "Q58": 15, "Q63": 53, "Q65": 18, "Q70": 45}},
+  "National Research Council Canada":{fr:"Conseil national de recherches Canada",q:{"Q12": 77, "Q24": 68, "Q42": 57, "Q43": 64, "Q45": 56, "Q47": 80, "Q49": 57, "Q52": 53, "Q53": 88, "Q58": 5, "Q63": 52, "Q65": 11, "Q70": 54}},
+  "Natural Resources Canada":{fr:"Ressources naturelles Canada",q:{"Q12": 75, "Q24": 56, "Q42": 42, "Q43": 73, "Q45": 58, "Q47": 73, "Q49": 61, "Q52": 48, "Q53": 86, "Q58": 18, "Q63": 53, "Q65": 22, "Q70": 55, "Q72": 30}},
+  "Natural Sciences and Engineering Research Council of Canada":{fr:"Conseil de recherches en sciences naturelles et en g\u00e9nie",q:{"Q12": 86, "Q24": 68, "Q42": 79, "Q43": 71, "Q45": 54, "Q47": 86, "Q49": 51, "Q52": 73, "Q53": 91}},
+  "Office of the Auditor General of Canada":{fr:"Bureau du v\u00e9rificateur g\u00e9n\u00e9ral du Canada",q:{"Q12": 56, "Q24": 49, "Q42": 23, "Q43": 42, "Q45": 36, "Q47": 54, "Q49": 31, "Q52": 25, "Q53": 65, "Q58": 18, "Q65": 32, "Q72": 0}},
+  "Office of the Chief Electoral Officer":{fr:"Bureau du Directeur g\u00e9n\u00e9ral des \u00e9lections",q:{"Q12": 80, "Q24": 43, "Q42": 57, "Q43": 67, "Q45": 68, "Q47": 90, "Q49": 65, "Q52": 62, "Q53": 91, "Q63": 59, "Q70": 61}},
+  "Parks Canada":{fr:"Parcs Canada",q:{"Q12": 58, "Q24": 50, "Q42": 39, "Q43": 51, "Q45": 38, "Q47": 68, "Q49": 48, "Q52": 45, "Q53": 74, "Q58": 16, "Q65": 24}},
+  "Parole Board of Canada":{fr:"Commission des lib\u00e9rations conditionnelles du Canada",q:{"Q12": 84, "Q24": 62, "Q42": 35, "Q43": 77, "Q45": 47, "Q47": 81, "Q49": 63, "Q52": 43, "Q53": 91}},
+  "Privy Council Office":{fr:"Bureau du Conseil priv\u00e9",q:{"Q12": 77, "Q24": 69, "Q42": 54, "Q43": 61, "Q45": 45, "Q47": 74, "Q49": 56, "Q52": 62, "Q53": 87, "Q58": 16, "Q63": 69, "Q65": 16, "Q70": 57}},
+  "Public Health Agency of Canada":{fr:"Agence de la sant\u00e9 publique du Canada",q:{"Q12": 71, "Q24": 49, "Q42": 39, "Q43": 50, "Q45": 42, "Q47": 65, "Q49": 42, "Q52": 32, "Q53": 77, "Q58": 18, "Q63": 49, "Q65": 21, "Q70": 46, "Q72": 0}},
+  "Public Prosecution Service of Canada":{fr:"Service des poursuites p\u00e9nales du Canada",q:{"Q12": 49, "Q24": 33, "Q42": 39, "Q43": 45, "Q45": 47, "Q47": 64, "Q49": 35, "Q52": 47, "Q53": 97, "Q58": 24, "Q65": 22}},
+  "Public Safety Canada":{fr:"S\u00e9curit\u00e9 publique Canada",q:{"Q12": 52, "Q24": 45, "Q42": 22, "Q43": 51, "Q45": 51, "Q47": 63, "Q49": 30, "Q52": 30, "Q53": 79, "Q58": 23, "Q63": 42, "Q65": 20, "Q72": 12}},
+  "Public Service Commission of Canada":{fr:"Commission de la fonction publique du Canada",q:{"Q12": 70, "Q24": 56, "Q42": 53, "Q43": 48, "Q45": 49, "Q47": 57, "Q49": 58, "Q52": 50, "Q53": 86, "Q58": 17, "Q63": 31}},
+  "Public Services and Procurement Canada":{fr:"Services publics et Approvisionnement Canada",q:{"Q12": 73, "Q24": 54, "Q42": 57, "Q43": 67, "Q45": 55, "Q47": 72, "Q49": 53, "Q52": 45, "Q53": 86, "Q58": 12, "Q63": 58, "Q65": 14, "Q70": 58}},
+  "Royal Canadian Mounted Police":{fr:"Gendarmerie royale du Canada",q:{"Q12": 70, "Q24": 58, "Q42": 47, "Q43": 60, "Q45": 62, "Q47": 74, "Q49": 40, "Q52": 40, "Q53": 80, "Q58": 15, "Q63": 36, "Q65": 20, "Q70": 33, "Q72": 0}},
+  "Shared Services Canada":{fr:"Services partag\u00e9s Canada",q:{"Q12": 75, "Q24": 54, "Q42": 51, "Q43": 68, "Q45": 58, "Q47": 78, "Q49": 58, "Q52": 51, "Q53": 88, "Q58": 12, "Q63": 49, "Q65": 13, "Q70": 55, "Q72": 12}},
+  "Social Sciences and Humanities Research Council of Canada":{fr:"Conseil de recherches en sciences humaines",q:{"Q12": 61, "Q24": 43, "Q42": 51, "Q43": 71, "Q45": 42, "Q47": 63, "Q49": 50, "Q52": 60, "Q53": 87}},
+  "Statistics Canada":{fr:"Statistique Canada",q:{"Q12": 74, "Q24": 54, "Q42": 52, "Q43": 63, "Q45": 58, "Q47": 79, "Q49": 61, "Q52": 48, "Q53": 85, "Q58": 8, "Q63": 57, "Q65": 12, "Q70": 55}},
+  "Transport Canada":{fr:"Transports Canada",q:{"Q12": 70, "Q24": 62, "Q42": 58, "Q43": 68, "Q45": 59, "Q47": 73, "Q49": 59, "Q52": 41, "Q53": 85, "Q58": 13, "Q63": 54, "Q65": 12, "Q70": 58, "Q72": 0}},
+  "Treasury Board of Canada Secretariat":{fr:"Secr\u00e9tariat du Conseil du Tr\u00e9sor du Canada",q:{"Q12": 76, "Q24": 55, "Q42": 39, "Q43": 58, "Q45": 41, "Q47": 70, "Q49": 48, "Q52": 52, "Q53": 83, "Q58": 12, "Q65": 12, "Q70": 35}},
+  "Veterans Affairs Canada":{fr:"Anciens Combattants Canada",q:{"Q12": 74, "Q24": 61, "Q42": 70, "Q43": 62, "Q45": 44, "Q47": 68, "Q49": 61, "Q52": 51, "Q53": 85, "Q63": 59, "Q65": 10, "Q70": 60}},
+  "Women and Gender Equality Canada":{fr:"Femmes et \u00c9galit\u00e9 des genres Canada",q:{"Q12": 71, "Q24": 55, "Q42": 51, "Q43": 63, "Q45": 40, "Q47": 75, "Q49": 40, "Q52": 13, "Q53": 89, "Q58": 0, "Q70": 17}}
 };
 
 function L(en, fr){ return lang === "fr" ? fr : en; }
@@ -558,6 +623,37 @@ function wireBuilders(){
       dl(L("data-request-black-employees.doc","demande-donnees-employes-noirs.doc"), docWrap(rt.value, L("Data request","Demande de donn\u00e9es")));
     });
   }
+  ["1","2","3","4"].forEach(function(i){ var el = document.getElementById("dcmp"+i); if(el) el.addEventListener("change", buildDeptCompare); });
+  if(document.getElementById("deptCmpOut")) buildDeptCompare();
+}
+
+function escAttr(s){ return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;"); }
+function deptName(k){ return lang === "fr" ? (DEPTSURV[k] ? DEPTSURV[k].fr : k) : k; }
+function buildDeptCompare(){
+  var out = document.getElementById("deptCmpOut"); if(!out) return;
+  var picked = ["1","2","3","4"].map(function(i){ var el = document.getElementById("dcmp"+i); return el ? el.value : ""; })
+    .filter(function(v){ return v && DEPTSURV[v] && v !== "Public Service"; });
+  var seen = {}, depts = []; picked.forEach(function(v){ if(!seen[v]){ seen[v] = 1; depts.push(v); } });
+  var ref = DEPTSURV["Public Service"].q;
+  var cols = [{k:"Public Service", ref:true}].concat(depts.map(function(k){ return {k:k, ref:false}; }));
+  var head = '<th scope="col">'+L("Survey question (2024)","Question du sondage (2024)")+'</th>'
+    + cols.map(function(c){ return '<th scope="col" class="num">'+(c.ref ? L("Public Service (reference)","Fonction publique (r\u00e9f\u00e9rence)") : escHtml(deptName(c.k)))+'</th>'; }).join("");
+  var bodyRows = DATA.Q.map(function(q){
+    var code = q[0], neg = q[1] === "neg", label = lang === "fr" ? q[3] : q[2];
+    var ql = escHtml(label) + (neg ? L(" (% who experienced it)"," (% l'ayant v\u00e9cu)") : "");
+    var cells = cols.map(function(c){
+      var v = DEPTSURV[c.k].q[code];
+      if(v == null) return '<td class="num">\u2014</td>';
+      var worse = false;
+      if(!c.ref){ var r = ref[code]; if(r != null){ var diff = v - r; worse = neg ? (diff >= 10) : (diff <= -10); } }
+      return '<td class="num'+(worse ? " worse" : "")+'">'+pct(v)+'</td>';
+    }).join("");
+    return '<tr><th scope="row">'+ql+'</th>'+cells+'</tr>';
+  }).join("");
+  var cap = L("Black employees' 2024 survey results by department, shown against the public-service Black figure. A flagged cell is at least 10 points less favourable than the public-service Black result for that question.","R\u00e9sultats du sondage de 2024 des employ\u00e9s noirs par minist\u00e8re, pr\u00e9sent\u00e9s par rapport au chiffre noir de la fonction publique. Une cellule signal\u00e9e est inf\u00e9rieure d'au moins 10\u00a0points, dans le sens le moins favorable, au r\u00e9sultat noir de la fonction publique pour cette question.");
+  var lead = depts.length ? "" : '<p class="note">'+L("Select at least one department above to compare.","S\u00e9lectionnez au moins un minist\u00e8re ci-dessus pour comparer.")+'</p>';
+  out.innerHTML = lead + '<div class="tblwrap"><table><caption>'+cap+'</caption><thead><tr>'+head+'</tr></thead><tbody>'+bodyRows+'</tbody></table></div>'
+    + '<p class="note">'+L("Per-department Black counts are small, so differences between departments may not be reliable; a dash means the result is suppressed for that department. The public-service-wide figures are the most reliable.","Les d\u00e9nombrements noirs par minist\u00e8re sont faibles; les diff\u00e9rences entre minist\u00e8res peuvent ne pas \u00eatre fiables; un tiret signifie que le r\u00e9sultat est supprim\u00e9 pour ce minist\u00e8re. Les chiffres \u00e0 l'\u00e9chelle de la fonction publique sont les plus fiables.")+'</p>';
 }
 
 function render(){
@@ -746,6 +842,29 @@ function render(){
     "Les d\u00e9nombrements noirs par organisation sont faibles; les chiffres des organisations individuelles varient donc fortement et ne sont pas class\u00e9s ici; c'est le sch\u00e9ma d'une organisation \u00e0 l'autre, et non le chiffre d'une seule, qui importe. Les r\u00e9sultats pour les employ\u00e9s noirs ne portent que sur 2024 et sont enti\u00e8rement supprim\u00e9s dans "+(D.total - D.withBlack)+" des "+D.total+" organisations."
   )+'</p>');
 
+  H.push('<h3>'+L("Compare departments","Comparer les minist\u00e8res")+'</h3>');
+  H.push('<p>'+L(
+    "Select up to four departments to compare Black employees' 2024 survey results, shown against the public-service Black figure.",
+    "S\u00e9lectionnez jusqu'\u00e0 quatre minist\u00e8res pour comparer les r\u00e9sultats du sondage de 2024 des employ\u00e9s noirs, pr\u00e9sent\u00e9s par rapport au chiffre noir de la fonction publique."
+  )+'</p>');
+  H.push('<div class="tool">');
+  (function(){
+    var opts = Object.keys(DEPTSURV).filter(function(k){ return k !== "Public Service"; })
+      .map(function(k){ return {k:k, name:(lang === "fr" ? DEPTSURV[k].fr : k)}; })
+      .sort(function(a, b){ return a.name.localeCompare(b.name, lang === "fr" ? "fr" : "en"); });
+    function optionsHtml(selKey){
+      return '<option value="">'+L("\u2014 Select a department \u2014","\u2014 Choisir un minist\u00e8re \u2014")+'</option>'
+        + opts.map(function(o){ return '<option value="'+escAttr(o.k)+'"'+(o.k === selKey ? ' selected' : '')+'>'+escHtml(o.name)+'</option>'; }).join("");
+    }
+    ["1","2","3","4"].forEach(function(i){
+      var def = i === "1" ? "Indigenous Services Canada" : "";
+      H.push('<label class="fld" for="dcmp'+i+'">'+L("Department","Minist\u00e8re")+' '+i+'</label>');
+      H.push('<select id="dcmp'+i+'">'+optionsHtml(def)+'</select>');
+    });
+  })();
+  H.push('<div id="deptCmpOut" style="margin-top:12px"></div>');
+  H.push('</div>');
+
   /* 7. Gaps */
   H.push('<h2>'+L("What the published data does not show","Ce que les donn\u00e9es publi\u00e9es ne montrent pas")+'</h2>');
   var gaps = [
@@ -805,7 +924,7 @@ function render(){
         "Sources: Public Service Employee Survey, 2024 and 2022-2023 results tables (perception). Employment equity reporting, Treasury Board of Canada Secretariat: representation, flows, region, occupation and bilingual data to 2024-25, executive counts at March 31, 2025, median salary 2017-2024. Recruitment funnel: Public Service Commission staffing audit (2016-17 processes, published 2021). Workplace barriers: Canadian Human Rights Commission horizontal audit, 2024.",
         "Sources : Sondage aupr\u00e8s des fonctionnaires f\u00e9d\u00e9raux, 2024 et tableaux de r\u00e9sultats de 2022-2023 (perception). D\u00e9claration sur l'\u00e9quit\u00e9 en emploi, Secr\u00e9tariat du Conseil du Tr\u00e9sor du Canada : repr\u00e9sentation, mouvements, r\u00e9gion, profession et donn\u00e9es sur le bilinguisme jusqu'en 2024-2025, d\u00e9nombrements de cadres au 31 mars 2025, salaire m\u00e9dian 2017-2024. Entonnoir de recrutement : v\u00e9rification de la dotation de la Commission de la fonction publique (processus de 2016-2017, publi\u00e9 en 2021). Obstacles en milieu de travail : v\u00e9rification horizontale de la Commission canadienne des droits de la personne, 2024."
       )+'</p>'
-    + '<p class="src">Black employees \u00b7 '+L("standalone page","page autonome")+' \u00b7 Build 2026-06-29c</p>';
+    + '<p class="src">Black employees \u00b7 '+L("standalone page","page autonome")+' \u00b7 Build 2026-06-29d</p>';
   wireBuilders();
 }
 
