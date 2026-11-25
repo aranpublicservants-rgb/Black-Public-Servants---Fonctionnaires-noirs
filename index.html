@@ -77,7 +77,7 @@
   .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 </style>
 <link rel="canonical" href="https://aranpublicservants-rgb.github.io/Black-Public-Servants---Fonctionnaires-noirs/">
-</head>
+<style>.first-visit{border:1px solid currentColor;border-radius:.5rem;padding:1rem;margin:1rem 0}.first-visit ul{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:.5rem;padding:0;list-style:none}.first-visit a{display:block;padding:.5rem;border:1px solid currentColor;border-radius:.3rem}.first-visit a:focus-visible{outline:3px solid currentColor;outline-offset:3px}</style></head>
 <body>
 <a href="#content" class="skip" id="skip">Skip to content</a>
 <header class="site">
@@ -688,8 +688,9 @@ function render(){
     'Il n\'existe aucun rep\u00e8re de disponibilit\u00e9 au sein de la population active propre aux employ\u00e9s noirs. La Loi sur l\'\u00e9quit\u00e9 en emploi regroupe tous les employ\u00e9s racis\u00e9s en un seul groupe d\u00e9sign\u00e9 (\u00ab les membres des minorit\u00e9s visibles \u00bb dans le libell\u00e9 de la Loi), et non les personnes noires s\u00e9par\u00e9ment. Cette page peut donc indiquer combien d\'employ\u00e9s noirs il y a, mais pas si ce nombre atteint une cible officielle. Les employ\u00e9s noirs sont compt\u00e9s au sein du groupe racis\u00e9, qui repr\u00e9sente '+pct(R.racialized)+' de l\'effectif, au-dessus de son estimation de disponibilit\u00e9 de '+pct(R.racializedBench)+'. Un groupe qui d\u00e9passe son rep\u00e8re global peut tout de m\u00eame masquer un \u00e9cart pour un sous-groupe qu\'il contient.'
   )+'</p></div>');
 
+  H.push(L("<section class=\"first-visit\" aria-label=\"Start here\"><h2>Start here: choose a question</h2><p>Workforce counts count employees. Surveys report respondents’ answers. Choose the question that matters to you.</p><ul><li><a href=\"#first-representation\">How many Black employees are there?</a></li><li><a href=\"#first-departments\">Where do Black employees work?</a></li><li><a href=\"#first-careers\">What about hiring and promotion?</a></li><li><a href=\"#first-pay\">How does pay compare?</a></li><li><a href=\"#first-experience\">What do employees report about their workplace?</a></li><li><a href=\"#first-brief\">Prepare a briefing or ask for more data</a></li></ul></section>","<section class=\"first-visit\" aria-label=\"Par où commencer?\"><h2>Par où commencer?</h2><p>Les effectifs comptent des employés. Les sondages rapportent les réponses des participants. Choisissez la question qui vous intéresse.</p><ul><li><a href=\"#first-representation\">Combien y a-t-il d’employés noirs?</a></li><li><a href=\"#first-departments\">Où travaillent les employés noirs?</a></li><li><a href=\"#first-careers\">Qu’en est-il de l’embauche et de la promotion?</a></li><li><a href=\"#first-pay\">Comment se compare la rémunération?</a></li><li><a href=\"#first-experience\">Que déclarent les employés au sujet de leur milieu de travail?</a></li><li><a href=\"#first-brief\">Préparer une note ou demander d’autres données</a></li></ul></section>"));
   /* 1. Representation */
-  H.push('<h2>'+L("Representation and recent trend","Repr\u00e9sentation et tendance r\u00e9cente")+'</h2>');
+  H.push('<h2 id="first-representation">'+L("Representation and recent trend","Repr\u00e9sentation et tendance r\u00e9cente")+'</h2>');
   H.push('<div class="kpis">'
     + kpi(intc(R.n), L("Black employees","employ\u00e9s noirs"))
     + kpi(pct(R.pct), L("of the workforce","de l'effectif"))
@@ -705,7 +706,7 @@ function render(){
   )+'</p>');
 
   /* 2. Where they work */
-  H.push('<h2>'+L("Where Black employees work","O\u00f9 travaillent les employ\u00e9s noirs")+'</h2>');
+  H.push('<h2 id="first-departments">'+L("Where Black employees work","O\u00f9 travaillent les employ\u00e9s noirs")+'</h2>');
   H.push('<p>'+L(
     "Representation varies across the country. The Black share runs from "+pct(6.7)+" in Quebec outside the National Capital Region down to "+pct(0.6)+" in Prince Edward Island; British Columbia, a large employer, sits at "+pct(1.1)+". The National Capital Region holds the most public servants, with a "+pct(6.2)+" Black share.",
     "La repr\u00e9sentation varie d'une r\u00e9gion \u00e0 l'autre. La part noire va de "+pct(6.7)+" au Qu\u00e9bec hors de la r\u00e9gion de la capitale nationale jusqu'\u00e0 "+pct(0.6)+" \u00e0 l'\u00cele-du-Prince-\u00c9douard; la Colombie-Britannique, un grand employeur, se situe \u00e0 "+pct(1.1)+". La r\u00e9gion de la capitale nationale compte le plus de fonctionnaires, avec une part noire de "+pct(6.2)+"."
@@ -723,7 +724,7 @@ function render(){
   )+'</p>');
 
   /* 3. Recruitment, advancement and leadership */
-  H.push('<h2>'+L("Recruitment, advancement and leadership","Recrutement, avancement et leadership")+'</h2>');
+  H.push('<h2 id="first-careers">'+L("Recruitment, advancement and leadership","Recrutement, avancement et leadership")+'</h2>');
   H.push('<h3>'+L("The recruitment process, stage by stage","Le processus de recrutement, \u00e9tape par \u00e9tape")+'</h3>');
   H.push(funnelTable());
   H.push('<p>'+L(
@@ -756,7 +757,7 @@ function render(){
   )+'</p>');
 
   /* 4. Pay */
-  H.push('<h2>'+L("Pay","R\u00e9mun\u00e9ration")+'</h2>');
+  H.push('<h2 id="first-pay">'+L("Pay","R\u00e9mun\u00e9ration")+'</h2>');
   H.push('<figure>'+svgLines(
     [ {label:L("All","Tous"), color:"var(--accent)", values:M.all},
       {label:L("Black","Noirs"), color:"var(--black)", values:M.black} ],
@@ -806,7 +807,7 @@ function render(){
   )+'</p>');
 
   /* 6. Survey */
-  H.push('<h2>'+L("What Black employees report (2024 survey)","Ce que les employ\u00e9s noirs d\u00e9clarent (sondage de 2024)")+'</h2>');
+  H.push('<h2 id="first-experience">'+L("What Black employees report (2024 survey)","Ce que les employ\u00e9s noirs d\u00e9clarent (sondage de 2024)")+'</h2>');
   H.push(surveyTable());
   H.push('<p>'+L(
     "The pattern is consistent. On everyday measures, Black employees report at or above all employees: "+b.Q53+"% feel treated with respect (against "+e.Q53+"%) and "+b.Q12+"% feel valued (against "+e.Q12+"%). At the same time, "+b.Q65+"% experienced discrimination in the past 12 months, against "+e.Q65+"%; "+b.Q24+"% would feel safe speaking about racism without reprisal, against "+e.Q24+"%; and "+b.Q49+"% see anti-racism initiatives implemented, against "+e.Q49+"%. Confidence is lowest in the formal processes: "+b.Q72+"% are satisfied with how racism complaints are resolved. Black employees report respectful day-to-day treatment alongside much lower confidence in recourse when something goes wrong.",
@@ -887,7 +888,7 @@ function render(){
   H.push('<ul>'+gaps+'</ul>');
 
   /* 9. Builders */
-  H.push('<h2>'+L("Build a briefing note or data request","Cr\u00e9er une note d'information ou une demande de donn\u00e9es")+'</h2>');
+  H.push('<h2 id="first-brief">'+L("Build a briefing note or data request","Cr\u00e9er une note d'information ou une demande de donn\u00e9es")+'</h2>');
   H.push('<p>'+L(
     "Two ready-to-adapt documents, assembled from the data on this page. Edit the text freely before downloading. Each downloads as a Word file.",
     "Deux documents pr\u00eats \u00e0 adapter, assembl\u00e9s \u00e0 partir des donn\u00e9es de cette page. Modifiez le texte librement avant de t\u00e9l\u00e9charger. Chacun se t\u00e9l\u00e9charge en format Word."
