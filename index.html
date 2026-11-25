@@ -104,13 +104,13 @@
     </div>
   </div>
 </header>
-<main id="content" tabindex="-1"></main>
+<main id="content" tabindex="-1"><h1>Black employees in the federal public service / <span lang="fr">Les employés noirs dans la fonction publique fédérale</span></h1><p>For employees, managers and researchers. Independent evidence on representation, staffing and workplace experience. / <span lang="fr">Pour le personnel, les gestionnaires et les chercheurs. Données indépendantes sur la représentation, la dotation et le milieu de travail.</span></p><h2>Representation / Représentation</h2><table><caption>Core public administration, March 31, 2025 / Administration publique centrale, 31 mars 2025</caption><thead><tr><th scope="col">Population</th><th scope="col">Black share / Proportion de personnes noires</th></tr></thead><tbody><tr><th scope="row">Workforce / Effectif</th><td>5.1%</td></tr><tr><th scope="row">Executives / Cadres</th><td>3.2%</td></tr></tbody></table><p>Source: <a href="https://www.canada.ca/en/treasury-board-secretariat/services/values-ethics/diversity-equity-inclusion/employment-equity-annual-reports.html">Treasury Board employment equity annual reports / Rapports annuels sur l’équité en matière d’emploi</a>. No Black-specific workforce availability benchmark is published here. / <span lang="fr">Aucun repère de disponibilité propre aux personnes noires n’est publié ici.</span></p><p><a href="https://aranpublicservants-rgb.github.io/GC-Equity-Equite-GC/">Federal data and sources / Données et sources fédérales</a></p></main>
 <div id="srstatus" class="sr-only" role="status" aria-live="polite"></div>
 <footer id="foot"></footer>
-<noscript><div style="max-width:940px;margin:0 auto;padding:24px 20px">This page needs JavaScript to display the data. / Cette page a besoin de JavaScript pour afficher les donn&eacute;es.</div></noscript>
+<noscript><p>Interactive charts need JavaScript. The published figures above remain available. / Les graphiques interactifs nécessitent JavaScript. Les données publiées ci-dessus restent accessibles.</p></noscript>
 <script>
 "use strict";
-var lang = "en";
+var lang = new URLSearchParams(location.search).get("lang")==="fr" ? "fr" : "en";
 var root = document.documentElement;
 
 /* Every figure is transcribed from published Government of Canada data.
@@ -591,9 +591,7 @@ function docWrap(text, title){
     return line.trim() === "" ? "<p style='margin:0;height:9px'></p>" : "<p style='margin:0 0 6px'>"+line+"</p>";
   }).join("");
   return "<!DOCTYPE html><html><head><meta charset='utf-8'><title>"+escHtml(title)+"</title></head>"
-    + "<body style=\"font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.4;color:#000\">"+paras+"
-<aside id="gc-equity-related" aria-label="Related federal public service resource" style="max-width:1120px;margin:2.5rem auto 1.3rem;padding:1.1rem 1.3rem;border-top:1px solid #9aaead;line-height:1.5;font-family:system-ui,sans-serif;font-size:.92rem"><strong>Complementary equity research <span lang="fr">· Recherche connexe sur l’équité</span></strong><p style="margin:.35rem 0"><a href="https://aranpublicservants-rgb.github.io/GC-Equity-Equite-GC/">GC Equity / Équité-GC</a> · <a href="https://aranpublicservants-rgb.github.io/GC-Equity-Equite-GC/organizations.html">Federal organization directory / Répertoire fédéral</a></p></aside>
-</body></html>";
+    + "<body style=\"font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.4;color:#000\">"+paras+"</body></html>";
 }
 function dl(name, html){
   var st = document.getElementById("srstatus");
@@ -954,5 +952,5 @@ var startDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: d
 applyTheme(startDark ? "dark" : "light");
 render();
 </script>
-</body>
+<aside id="equity-related-static" aria-label="Related resources / Ressources connexes" style="max-width:70rem;margin:2rem auto;padding:1rem;line-height:1.6;border-top:1px solid currentColor"><h2>Related resources <span lang="fr">/ Ressources connexes</span></h2><p>Independent resource created by ARAN. <span lang="fr">Ressource indépendante créée par le RAAR.</span></p><ul><li><a href="https://aranpublicservants-rgb.github.io/GC-Equity-Equite-GC/">GC Equity — federal comparisons / <span lang="fr">Équité-GC — comparaisons fédérales</span></a></li><li><a href="https://aranpublicservants-rgb.github.io/aran-raar/">ARAN — network and recourse / <span lang="fr">RAAR — réseau et recours</span></a></li><li><a href="https://aranpublicservants-rgb.github.io/Accessibility-and-Inclusion-Accessibilit-et-inclusion/">Accessibility and accommodation / <span lang="fr">Accessibilité et mesures d’adaptation</span></a></li><li><a href="https://aranpublicservants-rgb.github.io/GC-Equity-History-Histoire-de-l-equite-au-GC/">Equity history / <span lang="fr">Histoire de l’équité</span></a></li><li><a href="https://aranpublicservants-rgb.github.io/Indigenous-GC---GC-Autochtone/">Indigenous public servants / <span lang="fr">Fonctionnaires autochtones</span></a></li><li><a href="https://aranpublicservants-rgb.github.io/Filipino-Public-Servants-Fonctionnaires-Philippins/">Filipino public servants / <span lang="fr">Fonctionnaires philippins</span></a></li><li><a href="https://aranpublicservants-rgb.github.io/pses-2024-branch.html/">2024 employee survey by branch / <span lang="fr">Sondage de 2024 par secteur</span></a></li></ul></aside></body>
 </html>
